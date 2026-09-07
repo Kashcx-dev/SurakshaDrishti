@@ -87,7 +87,7 @@ export default function IntroSequence({ onComplete }) {
           
           <div className="w-16 h-16 flex items-center justify-center relative z-10 transition-transform hover:scale-105">
             <img 
-              src="/favicon.webp" 
+              src="./favicon.webp" 
               alt="SurakshaDrishti Core Emblem" 
               className="w-full h-full object-contain drop-shadow-md" 
             />

@@ -115,7 +115,7 @@ export default function Navbar({
           >
             <div className="w-9 h-9 flex items-center justify-center transition-transform group-hover:scale-105">
               <img 
-                src="/favicon.webp" 
+                src="./favicon.webp" 
                 alt="SurakshaDrishti Emblem" 
                 className="w-full h-full object-contain"
               />
@@ -244,7 +244,7 @@ export default function Navbar({
                 <div className="flex items-center gap-2.5">
                   <div className="w-8 h-8 flex items-center justify-center">
                     <img 
-                      src="/favicon.webp" 
+                      src="./favicon.webp" 
                       alt="SurakshaDrishti Emblem" 
                       className="w-full h-full object-contain"
                     />

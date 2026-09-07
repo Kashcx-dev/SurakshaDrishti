@@ -173,7 +173,7 @@ export default function HeroSection({ onExplore, onEmergencyAccess, onSelectZone
               {/* Converted WebP Tactical 3D Illustration */}
               <div className="relative overflow-hidden rounded-b-xl sm:rounded-b-2xl aspect-[16/10] bg-slate-950">
                 <img 
-                  src="/hero_tactical_ai.webp" 
+                  src="./hero_tactical_ai.webp" 
                   alt="3D Holographic Himalayan Digital Elevation & Hazard Map" 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                 />

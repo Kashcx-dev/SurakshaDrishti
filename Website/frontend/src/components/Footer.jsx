@@ -46,7 +46,7 @@ export default function Footer({ onReplayIntro }) {
           <div className="flex items-center justify-center md:justify-start gap-3">
             <div className="w-9 h-9 flex items-center justify-center shrink-0">
               <img 
-                src="/favicon.webp" 
+                src="./favicon.webp" 
                 alt="SurakshaDrishti Emblem" 
                 className="w-full h-full object-contain"
               />

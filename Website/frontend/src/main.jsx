@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import App from './App';
 import { ToastProvider } from './components/Toast';
@@ -44,11 +44,11 @@ class ErrorBoundary extends React.Component {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ErrorBoundary>
-      <BrowserRouter>
+      <HashRouter>
         <ToastProvider>
           <App />
         </ToastProvider>
-      </BrowserRouter>
+      </HashRouter>
     </ErrorBoundary>
   </React.StrictMode>,
 );

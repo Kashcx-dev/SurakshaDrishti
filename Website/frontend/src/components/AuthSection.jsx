@@ -207,7 +207,7 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
               <div className="flex items-center gap-2 mb-1">
                 <div className="w-5 h-5 flex items-center justify-center shrink-0">
                   <img 
-                    src="/favicon.webp" 
+                    src="./favicon.webp" 
                     alt="SurakshaDrishti Emblem" 
                     className="w-full h-full object-contain" 
                   />

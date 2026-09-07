@@ -385,7 +385,7 @@ export default function Dashboard({ user, onLogout, onNavigateProfile, onNavigat
               />
             ) : (
               <img 
-                src="/favicon.webp" 
+                src="./favicon.webp" 
                 alt="SurakshaDrishti Emblem" 
                 className="w-full h-full object-contain" 
               />

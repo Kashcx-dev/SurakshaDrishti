@@ -225,7 +225,7 @@ export default function App() {
         {/* Inner Brand Emblem (Clean, No box) */}
         <div className="w-10 h-10 flex items-center justify-center absolute">
           <img 
-            src="/favicon.webp" 
+            src="./favicon.webp" 
             alt="SurakshaDrishti Emblem" 
             className="w-full h-full object-contain"
           />

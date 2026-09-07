@@ -168,7 +168,7 @@ export default function GovernmentLanding({ onSignIn, onEmergencyAccess, userSes
           <div className="relative w-full aspect-square max-w-[520px] mx-auto lg:mx-0 lg:ml-auto flex items-center justify-center pointer-events-none select-none">
             {/* Main Location Earth Globe (Transparent, floating) */}
             <img 
-              src="/location_transparent.gif" 
+              src="./location_transparent.gif" 
               alt="SurakshaDrishti Real-Time Location Telemetry" 
               className="relative z-10 w-full h-full object-contain select-none pointer-events-none"
               style={{ 
@@ -187,7 +187,7 @@ export default function GovernmentLanding({ onSignIn, onEmergencyAccess, userSes
               }}
             >
               <img 
-                src="/satellite_earth_transparent.gif" 
+                src="./satellite_earth_transparent.gif" 
                 alt="ISRO Satellite Earth Telemetry Orbit" 
                 className="w-full h-full object-contain select-none pointer-events-none"
                 draggable={false}

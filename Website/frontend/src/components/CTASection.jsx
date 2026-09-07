@@ -22,7 +22,7 @@ export default function CTASection({ onExplore, onEmergencyAccess, onSignUp, onQ
             {/* Floating Animated Shield Graphic (No Background) */}
             <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-5 flex items-center justify-center select-none pointer-events-none">
               <img 
-                src="/shield_transparent.gif" 
+                src="./shield_transparent.gif" 
                 alt="Command Protocol Shield" 
                 className="w-full h-full object-contain"
                 style={{
