@@ -210,7 +210,8 @@ export default function RealGoogleMap({
     markersMapRef.current = {};
 
     zones.forEach((zone) => {
-      const isRed = zone.type === 'red';
+      
+      const isRed = String(zone.type || '').toLowerCase().includes('red');
       const isSelected = selectedZone?.id === zone.id;
 
 
@@ -326,7 +327,7 @@ export default function RealGoogleMap({
         group.addLayer(polyline);
       }
     });
-  }, [selectedZone, showRedZones, showSafeSites, showRoutes]);
+  }, [zones,selectedZone, showRedZones, showSafeSites, showRoutes]);
 
 
   const handleFlyTo = (zone) => {
@@ -396,8 +397,8 @@ export default function RealGoogleMap({
           }
         });
 
-        const isInsideHazard = minDistance <= (nearest.radiusMeters / 1000);
-
+        
+        const isInsideHazard = nearest !== null && minDistance <= (nearest.radiusMeters / 1000);
         const locData = {
           lat: latitude,
           lng: longitude,

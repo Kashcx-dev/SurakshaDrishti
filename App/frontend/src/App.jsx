@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import RealGoogleMap from './components/RealGoogleMap';
 import AlertNotification from './components/AlertNotification';
-import { api } from './utils/api';
+import {apiserviece} from './utils/api';
 
 export default function App() {
   const [isEmergency, setIsEmergency] = useState(false);

@@ -200,3 +200,4 @@ export const apiService = {
     }
   }
 };
+export const api = apiService;

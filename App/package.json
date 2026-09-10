@@ -10,6 +10,9 @@
     "electron": "cross-env NODE_ENV=development concurrently \"vite frontend\" \"wait-on tcp:5173 && electron .\""
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.1",
+    "@capacitor/cli": "^8.5.1",
+    "@capacitor/core": "^8.5.1",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "leaflet": "^1.9.4",
