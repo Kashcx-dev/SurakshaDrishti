@@ -46,7 +46,7 @@
 ---
 
 ## 1. System Overview & Executive Architecture
-
+`https://youtu.be/xM8rJConHVU`
 **SurakshaDrishti** is a mission-critical, AI-driven disaster decision support system (DSS) engineered to predict, delineate, and de-escalate acute geological and meteorological hazard perimeters (flash floods, landslides, and storm surges). Built to serve **National Disaster Response Force (NDRF)** battalions, **State Disaster Management Authorities (SDMA)**, District Emergency Operations Centers (EOCs), and frontline civilians, the platform bridges real-time spatial telemetry with actionable civilian evacuation corridors.
 
 The ecosystem is architecturally decoupled into two operational nodes communicating over a high-throughput, low-latency API and WebSocket mesh:
