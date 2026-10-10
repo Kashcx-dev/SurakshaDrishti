@@ -245,8 +245,8 @@ export default function Faqs() {
 
         {/* Title Header */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white/70 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-[#E8E1D5] shadow-xs">
-          <div className="w-16 h-16 flex items-center justify-center shrink-0 drop-shadow-sm">
-            <img src="/faqs.webp" alt="FAQs Orb" className="w-full h-full object-contain" />
+          <div className="w-16 h-16 rounded-2xl bg-[#F6F4F0] border border-[#E8E1D5] flex items-center justify-center shrink-0 shadow-xs text-[#8B7355]">
+            <HelpCircle className="w-8 h-8" />
           </div>
           <div>
             <h1 className="text-2xl sm:text-4xl font-bold text-[#1A1A1A] tracking-tight">Frequently Asked Questions</h1>

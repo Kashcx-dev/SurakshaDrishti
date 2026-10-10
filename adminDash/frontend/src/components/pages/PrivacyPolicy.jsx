@@ -41,8 +41,8 @@ export default function PrivacyPolicy() {
 
         {/* Title Header */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-5 bg-white/70 backdrop-blur-md p-6 sm:p-8 rounded-3xl border border-[#E8E1D5] shadow-xs">
-          <div className="w-16 h-16 flex items-center justify-center shrink-0 drop-shadow-sm">
-            <img src="/privacy-policy.webp" alt="Privacy Shield" className="w-full h-full object-contain" />
+          <div className="w-16 h-16 rounded-2xl bg-[#F0FFF4] border border-[#D4EDDA] flex items-center justify-center shrink-0 shadow-xs text-[#2D7A4F]">
+            <ShieldCheck className="w-8 h-8" />
           </div>
           <div>
             <h1 className="text-2xl sm:text-4xl font-bold text-[#1A1A1A] tracking-tight">Privacy Policy</h1>
