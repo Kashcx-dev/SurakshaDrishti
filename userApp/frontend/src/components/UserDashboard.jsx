@@ -46,6 +46,14 @@ export default function UserDashboard({ onLogout, session }) {
   // GSM Fallback specific states
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
+  // Safehouse and navigation states
+  const [sortedSafehouses, setSortedSafehouses] = useState([]);
+  const [selectedSafehouse, setSelectedSafehouse] = useState('');
+  const [routeTrigger, setRouteTrigger] = useState(0);
+  const [currentRadius, setCurrentRadius] = useState(7000);
+  const [hasAlerted, setHasAlerted] = useState(false);
+  const [routeCoordinates, setRouteCoordinates] = useState(null);
+
   useEffect(() => {
     const handleOffline = () => setIsOffline(true);
     const handleOnline = () => setIsOffline(false);
@@ -154,13 +162,6 @@ export default function UserDashboard({ onLogout, session }) {
     return () => clearInterval(interval);
   }, [currentRoute, userLat, userLng]);
 
-  const [sortedSafehouses, setSortedSafehouses] = useState([]);
-  const [selectedSafehouse, setSelectedSafehouse] = useState('');
-  const [routeTrigger, setRouteTrigger] = useState(0);
-
-  const [currentRadius, setCurrentRadius] = useState(7000);
-  const [hasAlerted, setHasAlerted] = useState(false);
-
   // Auto-trigger the siren/Electron popup if user is inside a red zone
   useEffect(() => {
     if (zones && zones.length > 0 && userLat && userLng && !hasAlerted) {
@@ -232,12 +233,6 @@ export default function UserDashboard({ onLogout, session }) {
       });
     }
   }, [userLat, userLng, currentRadius]);
-
-  if (currentRoute.includes('/alert')) {
-    return <AlertNotification />;
-  }
-
-  const [routeCoordinates, setRouteCoordinates] = useState(null);
 
   // Fetch real road GPS polyline using OSRM
   useEffect(() => {
@@ -329,6 +324,10 @@ export default function UserDashboard({ onLogout, session }) {
 
     return zones || [];
   }, [zones, sortedSafehouses, selectedSafehouse, userLat, userLng, routeCoordinates, isEmergency]);
+
+  if (currentRoute.includes('/alert')) {
+    return <AlertNotification />;
+  }
 
   return (
     <div className="w-screen h-screen relative overflow-hidden bg-[#FDFBF7] font-sans select-none">

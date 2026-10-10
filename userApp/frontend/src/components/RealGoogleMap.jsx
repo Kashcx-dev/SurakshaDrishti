@@ -17,7 +17,8 @@ import {
   Lock,
   Globe,
   Zap,
-  Key
+  Key,
+  X
 } from 'lucide-react';
 
 const TILE_LAYERS = {
@@ -76,6 +77,9 @@ export default function RealGoogleMap({
   const userLocationLayerRef = useRef(null);
   const markersMapRef = useRef({});
   const userInteractedRef = useRef(false);
+  const isProgrammaticMoveRef = useRef(false);
+  const lastForceRoutesTriggerRef = useRef(0);
+  const lastSelectedZoneIdRef = useRef(selectedZoneId);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [activeLayerType, setActiveLayerType] = useState('streets');
@@ -92,19 +96,22 @@ export default function RealGoogleMap({
 
   // Sync internal selectedZone whenever parent updates selectedZoneId or center
   useEffect(() => {
-    if (selectedZoneId) {
+    if (selectedZoneId && selectedZoneId !== lastSelectedZoneIdRef.current) {
+      lastSelectedZoneIdRef.current = selectedZoneId;
       const match = zones.find(z =>
         z.id === selectedZoneId ||
         z.id.toLowerCase() === selectedZoneId.toLowerCase() ||
         selectedZoneId.toLowerCase().includes(z.id.toLowerCase())
       );
       if (match) {
+        userInteractedRef.current = false;
         setSelectedZone(match);
         // Ensure routes and safe sites become visible when a zone or hub is selected
         setShowRoutes(true);
         setShowSafeSites(true);
         if (mapInstanceRef.current) {
           mapInstanceRef.current.invalidateSize();
+          isProgrammaticMoveRef.current = true;
           if (match.wayroute && match.wayroute.length > 0) {
             const bounds = L.latLngBounds(match.wayroute);
             if (match.safeSite) {
@@ -142,11 +149,12 @@ export default function RealGoogleMap({
           }
 
           setTimeout(() => {
+            isProgrammaticMoveRef.current = false;
             if (mapInstanceRef.current) mapInstanceRef.current.invalidateSize();
             if (markersMapRef.current[match.id]) {
               markersMapRef.current[match.id].openPopup();
             }
-          }, 900);
+          }, 1900);
         }
       }
     }
@@ -164,7 +172,9 @@ export default function RealGoogleMap({
 
   // When Relief Hub is clicked or selected by user, explicitly ensure paths and safe sites are shown
   useEffect(() => {
-    if (forceRoutesTrigger > 0) {
+    if (forceRoutesTrigger > 0 && forceRoutesTrigger !== lastForceRoutesTriggerRef.current) {
+      lastForceRoutesTriggerRef.current = forceRoutesTrigger;
+      userInteractedRef.current = false;
       setShowRoutes(true);
       setShowSafeSites(true);
       if (zones.length > 0) {
@@ -183,6 +193,7 @@ export default function RealGoogleMap({
                 bounds.extend([targetZone.lat, targetZone.lng]);
               }
             }
+            isProgrammaticMoveRef.current = true;
             if (mapInstanceRef.current.flyToBounds) {
               mapInstanceRef.current.flyToBounds(bounds, {
                 paddingTopLeft: [50, 50],
@@ -200,6 +211,9 @@ export default function RealGoogleMap({
                 duration: 1.8
               });
             }
+            setTimeout(() => {
+              isProgrammaticMoveRef.current = false;
+            }, 1900);
           }
         }
       }
@@ -227,17 +241,26 @@ export default function RealGoogleMap({
         preferCanvas: true, // Hardware-accelerated canvas renderer for smooth mobile performance
       });
 
-      map.on('movestart', (e) => {
-        if (e.originalEvent) {
+      const markUserInteracted = () => {
+        if (!isProgrammaticMoveRef.current) {
           userInteractedRef.current = true;
         }
-      });
+      };
 
-      map.on('zoomstart', (e) => {
-        if (e.originalEvent) {
-          userInteractedRef.current = true;
-        }
-      });
+      map.on('movestart', markUserInteracted);
+      map.on('zoomstart', markUserInteracted);
+      map.on('dragstart', markUserInteracted);
+
+      const mapContainer = mapContainerRef.current;
+      const onNativeInteraction = () => {
+        userInteractedRef.current = true;
+      };
+      if (mapContainer) {
+        mapContainer.addEventListener('wheel', onNativeInteraction, { passive: true });
+        mapContainer.addEventListener('touchstart', onNativeInteraction, { passive: true });
+        mapContainer.addEventListener('mousedown', onNativeInteraction, { passive: true });
+        mapContainer.addEventListener('pointerdown', onNativeInteraction, { passive: true });
+      }
 
       map.on('click', (e) => {
         // Clear selected zone when clicking map canvas
@@ -270,6 +293,12 @@ export default function RealGoogleMap({
       }
 
       return () => {
+        if (mapContainer) {
+          mapContainer.removeEventListener('wheel', onNativeInteraction);
+          mapContainer.removeEventListener('touchstart', onNativeInteraction);
+          mapContainer.removeEventListener('mousedown', onNativeInteraction);
+          mapContainer.removeEventListener('pointerdown', onNativeInteraction);
+        }
         if (resizeObserver) {
           resizeObserver.disconnect();
         }
@@ -284,14 +313,16 @@ export default function RealGoogleMap({
   useEffect(() => {
     if (mapInstanceRef.current && center && Array.isArray(center) && center.length === 2) {
       if (userInteractedRef.current) return; // Retain user's focused position
+      isProgrammaticMoveRef.current = true;
       mapInstanceRef.current.flyTo(center, zoom || 13, { 
         animate: true, 
         duration: 1.5,
         easeLinearity: 0.25 
       });
       setTimeout(() => {
+        isProgrammaticMoveRef.current = false;
         if (mapInstanceRef.current) mapInstanceRef.current.invalidateSize();
-      }, 300);
+      }, 1600);
     }
   }, [center?.[0], center?.[1], zoom]);
 
@@ -362,7 +393,11 @@ export default function RealGoogleMap({
 
     // Fly to user location only if user hasn't manually panned
     if (!userInteractedRef.current) {
+      isProgrammaticMoveRef.current = true;
       mapInstanceRef.current.flyTo([lat, lng], zoom || 14, { duration: 1.5 });
+      setTimeout(() => {
+        isProgrammaticMoveRef.current = false;
+      }, 1600);
     }
   }, [userLocationOverride?.lat, userLocationOverride?.lng]);
 
@@ -561,6 +596,7 @@ export default function RealGoogleMap({
 
   const handleFlyTo = (zone) => {
     userInteractedRef.current = false;
+    isProgrammaticMoveRef.current = true;
     setSelectedZone(zone);
     if (mapInstanceRef.current) {
       if (zone.wayroute && zone.wayroute.length > 0) {
@@ -601,10 +637,13 @@ export default function RealGoogleMap({
       }
 
       setTimeout(() => {
+        isProgrammaticMoveRef.current = false;
         if (markersMapRef.current[zone.id]) {
           markersMapRef.current[zone.id].openPopup();
         }
-      }, 900);
+      }, 1900);
+    } else {
+      isProgrammaticMoveRef.current = false;
     }
     if (onZoneSelect) onZoneSelect(zone);
   };
@@ -612,6 +651,7 @@ export default function RealGoogleMap({
 
   const handleResetView = () => {
     userInteractedRef.current = false;
+    isProgrammaticMoveRef.current = true;
     setSelectedZone(null);
     setShowRedZones(true);
     setShowSafeSites(true);
@@ -624,6 +664,9 @@ export default function RealGoogleMap({
       } else {
         mapInstanceRef.current.flyTo([20.5937, 78.9629], 5, { duration: 1.2 });
       }
+      setTimeout(() => {
+        isProgrammaticMoveRef.current = false;
+      }, 1300);
     }
   };
 
@@ -769,9 +812,13 @@ export default function RealGoogleMap({
       userMarker.bindPopup(userPopup).openPopup();
       uGroup.addLayer(userMarker);
 
+      isProgrammaticMoveRef.current = true;
       mapInstanceRef.current.flyTo([latitude, longitude], 12, {
         duration: 1.5
       });
+      setTimeout(() => {
+        isProgrammaticMoveRef.current = false;
+      }, 1600);
     }
   };
 
@@ -908,7 +955,7 @@ export default function RealGoogleMap({
               <AlertTriangle className="w-3.5 h-3.5 text-[#B85C38] shrink-0" />
               <span>{locationError}</span>
             </div>
-            <button onClick={() => setLocationError(null)} className="text-[#B85C38] hover:text-black font-bold ml-2">✕</button>
+            <button onClick={() => setLocationError(null)} className="text-[#B85C38] hover:text-black font-bold ml-2 p-0.5 rounded hover:bg-[#FADED4]/60 cursor-pointer" aria-label="Dismiss error"><X className="w-3.5 h-3.5" /></button>
           </div>
         )}
 
@@ -1043,7 +1090,7 @@ export default function RealGoogleMap({
                   className="w-full bg-transparent text-white text-[11px] sm:text-xs outline-none placeholder-slate-400 font-medium"
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-white text-xs font-bold px-1">✕</button>
+                  <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-white text-xs font-bold px-1 cursor-pointer" aria-label="Clear search"><X className="w-3 h-3" /></button>
                 )}
                 <select
                   value={selectedZone?.id || ''}
@@ -1219,7 +1266,7 @@ export default function RealGoogleMap({
               <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>{locationError}</span>
             </div>
-            <button onClick={() => setLocationError(null)} className="text-amber-400 hover:text-white font-bold ml-2">✕</button>
+            <button onClick={() => setLocationError(null)} className="text-amber-400 hover:text-white font-bold ml-2 p-0.5 rounded hover:bg-amber-900/50 cursor-pointer" aria-label="Dismiss error"><X className="w-3.5 h-3.5" /></button>
           </div>
         )}
 
