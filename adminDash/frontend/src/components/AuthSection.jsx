@@ -329,8 +329,8 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
       {/* Full-Screen Split Layout */}
       <div className="w-full flex-1 grid grid-cols-1 lg:grid-cols-12 h-full overflow-hidden">
         
-        {/* ══════════════ LEFT PART: Clean Earth Surface with India visible from Orbit & Mission Overview (Hidden on Mobile) ══════════════ */}
-        <div className="hidden lg:flex lg:col-span-5 xl:col-span-5 relative bg-[#090F16] text-white p-6 lg:p-7 xl:p-8 flex-col justify-between overflow-hidden shrink-0 border-r border-white/10 h-full">
+        {/* ══════════════ LEFT PART: Clean Earth Surface with India from Orbit & Rich Mission Overview (Hidden on Mobile) ══════════════ */}
+        <div className="hidden lg:flex lg:col-span-6 xl:col-span-6 relative bg-[#090F16] text-white p-6 lg:p-8 xl:p-10 flex-col justify-between overflow-hidden shrink-0 border-r border-white/10 h-full">
           {/* Background Clean Earth Surface from Space with India Prominently Visible (Compressed WebP, No text on image) */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img 
@@ -338,97 +338,104 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
               alt="Planet Earth with Indian Subcontinent from Space Orbit" 
               className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-1000 ease-out select-none"
             />
-            {/* Atmospheric vignettes keeping the Indian subcontinent clear in the middle */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#090F16]/95 via-transparent to-[#090F16]/70"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#090F16]/60"></div>
+            {/* Atmospheric vignettes keeping the Earth view clear while ensuring text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#090F16] via-[#090F16]/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#090F16]/20 to-[#090F16]/60 hidden lg:block"></div>
           </div>
 
-          {/* Top Brand Header & Mission Headline */}
-          <div className="relative z-10 flex flex-col gap-2.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 flex items-center justify-center shrink-0">
-                  <img 
-                    src="/favicon.webp" 
-                    alt="SurakshaDrishti" 
-                    className="w-full h-full object-contain drop-shadow-md" 
-                  />
-                </div>
-                <div>
-                  <h3 className="text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-1.5">
-                    SurakshaDrishti
-                  </h3>
-                  <p className="text-[10px] text-gray-300 font-mono tracking-wider uppercase">
-                    National Disaster Decision Support System
-                  </p>
-                </div>
+          {/* Top Brand Header */}
+          <div className="relative z-10 flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                <img 
+                  src="/favicon.webp" 
+                  alt="SurakshaDrishti" 
+                  className="w-full h-full object-contain drop-shadow-md" 
+                />
               </div>
-              <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#8B7355]/30 border border-[#8B7355]/50 text-[#E8D7C3] uppercase font-bold shrink-0 backdrop-blur-md">
-                SIH 28191
-              </span>
-            </div>
-
-            <div className="pt-1.5">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md text-[10px] sm:text-[11px] font-mono font-medium text-emerald-300 mb-1.5 shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                ISRO SAR & IMD TELEMETRY • INDIA ORBIT
+              <div>
+                <h3 className="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
+                  SurakshaDrishti
+                </h3>
+                <p className="text-[11px] text-gray-300 font-mono tracking-wider uppercase">
+                  National Disaster Decision Support System
+                </p>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-snug drop-shadow-md">
-                Predict. Protect. Relocate.
-              </h2>
             </div>
+            <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-[#8B7355]/30 border border-[#8B7355]/50 text-[#E8D7C3] uppercase font-bold shrink-0 backdrop-blur-md">
+              SIH 28191
+            </span>
           </div>
 
-          {/* Spacer to keep the Indian subcontinent clearly visible in the middle */}
-          <div className="flex-1 min-h-[80px]"></div>
+          {/* Middle Application Information & Mission Overview */}
+          <div className="relative z-10 my-auto py-2 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md text-xs font-mono font-medium text-emerald-300 mb-3 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              MULTI-SATELLITE TELEMETRY ACTIVE • ISRO & IMD
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight mb-2.5 drop-shadow-md">
+              Predict. Protect. Relocate.
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-200 leading-relaxed font-light mb-5 drop-shadow-sm">
+              National Decision Support System fusing ISRO SAR satellite radar, IMD precipitation telemetry, and sub-meter GeoHash carrying capacity for proactive disaster mitigation.
+            </p>
 
-          {/* Lower Part: 3 Application Core Pillars & Command Desk Footer */}
-          <div className="relative z-10 mt-auto pt-3 flex flex-col gap-2.5">
-            {/* 3 Boxes positioned at the very lower part of the image */}
-            <div className="grid grid-cols-3 gap-2">
-              <div className="bg-black/65 backdrop-blur-md p-2 rounded-xl border border-white/15 shadow-sm">
-                <div className="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mb-1">
+            {/* Application Core Pillars (Upper, directly below the mission text) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div className="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-sm">
+                <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mb-1.5">
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
-                <p className="text-[11px] font-bold text-white mb-0.5 leading-tight">8-Char GeoHash</p>
-                <p className="text-[9px] text-gray-300 leading-tight">Sub-meter hazard triage.</p>
+                <p className="text-xs font-bold text-white mb-0.5">8-Char GeoHash Grid</p>
+                <p className="text-[10px] text-gray-300 leading-snug">Sub-meter hazard evaluation & triage.</p>
               </div>
 
-              <div className="bg-black/65 backdrop-blur-md p-2 rounded-xl border border-white/15 shadow-sm">
-                <div className="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mb-1">
+              <div className="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-sm">
+                <div className="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mb-1.5">
                   <Zap className="w-3.5 h-3.5" />
                 </div>
-                <p className="text-[11px] font-bold text-white mb-0.5 leading-tight">GSM 3.4 Relay</p>
-                <p className="text-[9px] text-gray-300 leading-tight">Zero-net corridors.</p>
+                <p className="text-xs font-bold text-white mb-0.5">GSM 3.4 Relay</p>
+                <p className="text-[10px] text-gray-300 leading-snug">Zero-internet emergency corridors.</p>
               </div>
 
-              <div className="bg-black/65 backdrop-blur-md p-2 rounded-xl border border-white/15 shadow-sm">
-                <div className="w-6 h-6 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 mb-1">
+              <div className="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-sm">
+                <div className="w-7 h-7 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 mb-1.5">
                   <Lock className="w-3.5 h-3.5" />
                 </div>
-                <p className="text-[11px] font-bold text-white mb-0.5 leading-tight">Command Guard</p>
-                <p className="text-[9px] text-gray-300 leading-tight">Ed25519 verification.</p>
+                <p className="text-xs font-bold text-white mb-0.5">Command Security</p>
+                <p className="text-[10px] text-gray-300 leading-snug">Ed25519 tamper-proof officer verification.</p>
               </div>
             </div>
+          </div>
 
-            {/* Bottom Footer Info */}
-            <div className="pt-2 border-t border-white/15 flex items-center justify-between text-[10px] font-mono text-gray-400">
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-                OFFICIAL COMMAND DESK
-              </span>
-              <span className="text-gray-300 font-semibold tracking-wider text-[9px]">AES-256-GCM ENCRYPTED</span>
-            </div>
+          {/* Bottom Footer Info */}
+          <div className="relative z-10 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] font-mono text-gray-400">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              OFFICIAL COMMAND DESK
+            </span>
+            <span className="text-gray-300 font-semibold tracking-wider text-[10px]">AES-256-GCM ENCRYPTED</span>
           </div>
         </div>
 
-        {/* ══════════════ RIGHT PART: Register / Sign In Fields (Wider, Non-scrollable on Desktop) ══════════════ */}
-        <div className="col-span-1 lg:col-span-7 xl:col-span-7 h-full bg-[#FDFBF7] p-4 sm:p-6 lg:p-7 xl:p-9 overflow-y-auto lg:overflow-hidden flex flex-col justify-between relative shadow-2xl">
-            
-            {/* Top Header & Close */}
-            <div className="flex items-start justify-between gap-3 mb-5">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
+        {/* ══════════════ RIGHT PART: Register / Sign In Fields (Centered vertically w.r.t top and bottom) ══════════════ */}
+        <div className="col-span-1 lg:col-span-6 xl:col-span-6 h-full bg-[#FDFBF7] px-6 sm:px-8 lg:px-10 xl:px-12 py-6 lg:py-8 flex flex-col justify-center items-center overflow-y-auto lg:overflow-hidden relative shadow-2xl">
+          
+          {/* Top-Right Absolute Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 p-2 rounded-xl bg-[#F6F4F0] hover:bg-[#E8E1D5] text-[#5C544D] hover:text-[#1A1A1A] transition-colors cursor-pointer shrink-0 shadow-2xs"
+            aria-label="Close modal"
+          >
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+
+          {/* Centered Right Content Block (Middle w.r.t Top and Bottom) */}
+          <div className="w-full max-w-xl flex flex-col justify-center">
+            {/* Top Header & Navigation Switcher */}
+            <div className="shrink-0 mb-3 sm:mb-4">
+              <div className="pr-10 mb-2.5">
+                <div className="flex items-center gap-1.5 mb-1">
                   <div className="w-4 h-4 flex items-center justify-center shrink-0">
                     <Lock className="w-3.5 h-3.5 text-[#8B7355]" />
                   </div>
@@ -436,74 +443,67 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
                     Officer Access Portal
                   </span>
                 </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] tracking-tight">
-                {authMode === 'otp'
-                  ? 'Two-Factor Authentication'
-                  : authMode === 'signup'
-                  ? 'Field Personnel Registration'
-                  : authMode === 'demo'
-                  ? '1-Click Evaluation Profiles'
-                  : 'Official Command Desk Sign In'}
-              </h2>
-              <p className="text-xs text-[#5C544D] mt-0.5">
-                {authMode === 'otp'
-                  ? 'Enter the secure OTP code sent to your official device'
-                  : authMode === 'signup'
-                  ? 'Register authorized field officers, SDRF/NDRF responders, or local disaster coordinators'
-                  : authMode === 'demo'
-                  ? 'Select any operational authority below for instant automated access into the tactical command console'
-                  : 'Centralized access for NDRF, SDMA, Police, and Fire Rescue officers with pre-provisioned credentials'}
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-xl bg-[#F6F4F0] hover:bg-[#E8E1D5] text-[#5C544D] hover:text-[#1A1A1A] transition-colors cursor-pointer shrink-0"
-              aria-label="Close modal"
-            >
-              <X className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-          </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] tracking-tight">
+                  {authMode === 'otp'
+                    ? 'Two-Factor Authentication'
+                    : authMode === 'signup'
+                    ? 'Field Personnel Registration'
+                    : authMode === 'demo'
+                    ? '1-Click Evaluation Profiles'
+                    : 'Official Command Desk Sign In'}
+                </h2>
+                <p className="text-xs text-[#5C544D] mt-0.5">
+                  {authMode === 'otp'
+                    ? 'Enter the secure OTP code sent to your official device'
+                    : authMode === 'signup'
+                    ? 'Register authorized field officers, SDRF/NDRF responders, or local disaster coordinators'
+                    : authMode === 'demo'
+                    ? 'Select any operational authority below for instant automated access into the tactical command console'
+                    : 'Centralized access for NDRF, SDMA, Police, and Fire Rescue officers with pre-provisioned credentials'}
+                </p>
+              </div>
 
-          {authMode !== 'otp' && (
-            <div className="flex rounded-xl bg-[#F6F4F0] p-1 mb-5 border border-[#E8E1D5]">
-              <button
-                type="button"
-                onClick={() => setAuthMode('demo')}
-                className={`flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  authMode === 'demo'
-                    ? 'bg-white text-[#1A1A1A] shadow-xs'
-                    : 'text-[#7A726A] hover:text-[#1A1A1A]'
-                }`}
-              >
-                <Zap className="w-3.5 h-3.5 text-[#8B7355]" />
-                <span>1-Click Demo</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setAuthMode('signin')}
-                className={`flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  authMode === 'signin'
-                    ? 'bg-white text-[#1A1A1A] shadow-xs'
-                    : 'text-[#7A726A] hover:text-[#1A1A1A]'
-                }`}
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                <span>Sign In</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setAuthMode('signup')}
-                className={`flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  authMode === 'signup'
-                    ? 'bg-white text-[#1A1A1A] shadow-xs'
-                    : 'text-[#7A726A] hover:text-[#1A1A1A]'
-                }`}
-              >
-                <UserPlus className="w-3.5 h-3.5" />
-                <span>Register</span>
-              </button>
-            </div>
-          )}
+              {authMode !== 'otp' && (
+                <div className="flex rounded-xl bg-[#F6F4F0] p-1 border border-[#E8E1D5]">
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('demo')}
+                  className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    authMode === 'demo'
+                      ? 'bg-white text-[#1A1A1A] shadow-xs'
+                      : 'text-[#7A726A] hover:text-[#1A1A1A]'
+                  }`}
+                >
+                  <Zap className="w-3.5 h-3.5 text-[#8B7355]" />
+                  <span>1-Click Demo</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('signin')}
+                  className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    authMode === 'signin'
+                      ? 'bg-white text-[#1A1A1A] shadow-xs'
+                      : 'text-[#7A726A] hover:text-[#1A1A1A]'
+                  }`}
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('signup')}
+                  className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    authMode === 'signup'
+                      ? 'bg-white text-[#1A1A1A] shadow-xs'
+                      : 'text-[#7A726A] hover:text-[#1A1A1A]'
+                  }`}
+                >
+                  <UserPlus className="w-3.5 h-3.5" />
+                  <span>Register</span>
+                </button>
+              </div>
+            )}
+          </div>
 
           {authMode === 'demo' ? (
             /* ================= MODE: 1-CLICK DEMO CASES ================= */
@@ -619,145 +619,193 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
             </div>
           ) : authMode === 'signup' ? (
             /* ================= MODE: PERSONNEL REGISTRATION ================= */
-            <div>
-              <div className="mb-4 p-3 bg-[#F6F4F0] rounded-xl border border-[#E8E1D5] flex items-center justify-between">
-                <div className="flex items-center gap-2 text-[#1A1A1A] font-bold text-xs sm:text-sm">
-                  <UserPlus className="w-4 h-4 text-[#8B7355]" />
-                  <span>Field & Responder Onboarding</span>
+            <div className="flex-1 flex flex-col justify-start">
+              {/* Tactical Badge & Intro */}
+              <div className="mb-3 p-3 rounded-2xl bg-gradient-to-r from-[#F6F4F0] via-[#FAF8F5] to-[#F6F4F0] border border-[#E8E1D5] flex items-center justify-between shadow-2xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#8B7355]/15 text-[#8B7355] flex items-center justify-center shrink-0 border border-[#8B7355]/20 shadow-2xs">
+                    <UserPlus className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#1A1A1A] flex items-center gap-1.5">
+                      Field Responder Onboarding
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <p className="text-[10px] text-[#7A726A] font-medium leading-tight">
+                      Tactical clearance for NDRF, SDMA, and Disaster Response Units
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E8E1D5] text-[#4A4238] font-bold uppercase">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#E8E1D5]/80 text-[#4A4238] font-bold uppercase shrink-0 border border-[#DCD5C9]">
                   Field Unit
                 </span>
               </div>
 
-              <form onSubmit={handleSignUp} className="space-y-3.5">
-                <div>
-                  <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Full Name</label>
-                  <div className="relative">
-                    <User className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                    <input
-                      type="text"
-                      required
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Inspector Rajesh Verma"
-                      className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Structured Registration Form */}
+              <form onSubmit={handleSignUp} className="space-y-3">
+                {/* Row 1: Full Name & Official Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Official Email</label>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Full Officer Name
+                    </label>
                     <div className="relative">
-                      <Mail className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
+                      <User className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <input
+                        type="text"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Inspector Rajesh Verma"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Official Gov Email
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
                       <input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="rajesh.ndrf@gov.in"
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Phone Number</label>
-                    <div className="relative">
-                      <Phone className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+91 9876543210"
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Row 2: Phone Number & Tactical Role */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Tactical Role</label>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Emergency Contact Number
+                    </label>
                     <div className="relative">
-                      <Shield className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                      <select
-                        value={signupRole}
-                        onChange={(e) => setSignupRole(e.target.value)}
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] focus:outline-none focus:border-[#8B7355] transition-colors cursor-pointer"
-                      >
-                        <option value="ndrf">NDRF Task Force</option>
-                        <option value="sdma">SDMA Officer</option>
-                        <option value="police">State Police Dispatch</option>
-                        <option value="fire_rescue">Fire & Rescue</option>
-                      </select>
+                      <Phone className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+91 98765 43210"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
+                      />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Assigned District</label>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Assigned Tactical Role
+                    </label>
                     <div className="relative">
-                      <Building2 className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
+                      <Shield className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <select
+                        value={signupRole}
+                        onChange={(e) => setSignupRole(e.target.value)}
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] focus:outline-none transition-all cursor-pointer shadow-2xs font-medium"
+                      >
+                        <option value="ndrf">NDRF Task Force</option>
+                        <option value="sdma">SDMA Operations</option>
+                        <option value="police">State Police Dispatch</option>
+                        <option value="fire_rescue">Fire & Rescue Unit</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 3: Assigned District & Security Passcode */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Operational District / Sector
+                    </label>
+                    <div className="relative">
+                      <Building2 className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
                       <input
                         type="text"
                         required
                         value={district}
                         onChange={(e) => setDistrict(e.target.value)}
                         placeholder="Wayanad Sector 4"
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Security Passcode
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <input
+                        type="password"
+                        required
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                        placeholder="••••••••••••"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Password</label>
-                  <div className="relative">
-                    <Lock className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                    <input
-                      type="password"
-                      required
-                      value={signupPassword}
-                      onChange={(e) => setSignupPassword(e.target.value)}
-                      placeholder="••••••••••••"
-                      className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
-                    />
-                  </div>
-                </div>
-
-                {/* GPS Coordinates */}
-                <div>
+                {/* Row 4: Sector GPS Telemetry with Integrated Detector */}
+                <div className="bg-[#FAF8F5] p-2 sm:p-2.5 rounded-xl border border-[#E8E1D5]">
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-semibold text-[#2C2A29]">Current Sector GPS</label>
+                    <label className="text-[11px] font-bold text-[#2C2A29] flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#8B7355]" />
+                      <span>Current Sector GPS Telemetry</span>
+                    </label>
                     <button
                       type="button"
                       onClick={handleDetectGPS}
                       disabled={isDetectingGPS}
-                      className="text-[11px] text-[#8B7355] hover:underline flex items-center gap-1 cursor-pointer"
+                      className="px-2 py-0.5 rounded-lg bg-white hover:bg-[#F6F4F0] border border-[#E8E1D5] text-[10px] font-semibold text-[#8B7355] flex items-center gap-1 transition-all cursor-pointer shadow-2xs disabled:opacity-50"
                     >
-                      <Crosshair className="w-3 h-3" />
-                      {isDetectingGPS ? 'Detecting...' : 'Detect Coordinates'}
+                      <Crosshair className={`w-3 h-3 ${isDetectingGPS ? 'animate-spin' : ''}`} />
+                      <span>{isDetectingGPS ? 'Acquiring Satellites...' : 'Detect Coordinates'}</span>
                     </button>
                   </div>
-                  <input
-                    type="text"
-                    value={detectedLoc || ''}
-                    onChange={(e) => setDetectedLoc(e.target.value)}
-                    placeholder="e.g. 11.6854, 76.1320"
-                    className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 px-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] font-mono focus:outline-none focus:border-[#8B7355] transition-colors"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={detectedLoc || ''}
+                      onChange={(e) => setDetectedLoc(e.target.value)}
+                      placeholder="e.g. 11.6854, 76.1320 (Sub-meter Latitude, Longitude)"
+                      className="w-full bg-white border border-[#E8E1D5] focus:border-[#8B7355] rounded-lg py-1.5 px-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] font-mono focus:outline-none transition-all shadow-2xs"
+                    />
+                  </div>
                 </div>
 
+                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3.5 rounded-xl bg-[#2C2A29] hover:bg-[#1A1A1A] text-[#FDFBF7] font-medium text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer hover:-translate-y-0.5 mt-2"
+                  className="w-full py-2.5 sm:py-3 rounded-xl bg-[#2C2A29] hover:bg-[#1A1A1A] text-white font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  {isLoading ? 'Registering...' : 'Register Tactical Account'}
-                  <ArrowRight className="w-4 h-4 opacity-80" />
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>{isLoading ? 'Verifying & Provisioning...' : 'Register Tactical Officer Account'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-80" />
                 </button>
+
+                {/* Reassurance Footer */}
+                <div className="pt-1.5 text-center border-t border-[#E8E1D5]/60 flex items-center justify-between text-[10px] text-[#7A726A]">
+                  <span>Authorized by Ministry of Home Affairs / SDMA</span>
+                  <button
+                    type="button"
+                    onClick={() => setAuthMode('signin')}
+                    className="text-[#8B7355] hover:underline font-semibold cursor-pointer inline-flex items-center gap-1"
+                  >
+                    Already have credentials? Sign In <ArrowRight className="w-2.5 h-2.5" />
+                  </button>
+                </div>
               </form>
             </div>
           ) : (
@@ -840,6 +888,7 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
             </form>
           </div>
           )}
+          </div>
         </div>
       </div>
     </div>
