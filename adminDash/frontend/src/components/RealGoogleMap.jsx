@@ -17,7 +17,8 @@ import {
   Lock,
   Globe,
   Zap,
-  Key
+  Key,
+  X
 } from 'lucide-react';
 
 const TILE_LAYERS = {
@@ -603,7 +604,7 @@ export default function RealGoogleMap({
               <AlertTriangle className="w-3.5 h-3.5 text-[#B85C38] shrink-0" />
               <span>{locationError}</span>
             </div>
-            <button onClick={() => setLocationError(null)} className="text-[#B85C38] hover:text-black font-bold ml-2">✕</button>
+            <button onClick={() => setLocationError(null)} className="text-[#B85C38] hover:text-black font-bold ml-2 p-0.5 rounded hover:bg-[#FADED4]/60 cursor-pointer" aria-label="Dismiss error"><X className="w-3.5 h-3.5" /></button>
           </div>
         )}
 
@@ -736,7 +737,7 @@ export default function RealGoogleMap({
                   className="w-full bg-transparent text-white text-[11px] sm:text-xs outline-none placeholder-slate-400 font-medium"
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-white text-xs font-bold px-1">✕</button>
+                  <button onClick={() => setSearchQuery('')} className="text-slate-400 hover:text-white text-xs font-bold px-1 cursor-pointer" aria-label="Clear search"><X className="w-3 h-3" /></button>
                 )}
                 <select
                   value={selectedZone?.id || ''}
@@ -902,7 +903,7 @@ export default function RealGoogleMap({
               <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
               <span>{locationError}</span>
             </div>
-            <button onClick={() => setLocationError(null)} className="text-amber-400 hover:text-white font-bold ml-2">✕</button>
+            <button onClick={() => setLocationError(null)} className="text-amber-400 hover:text-white font-bold ml-2 p-0.5 rounded hover:bg-amber-900/50 cursor-pointer" aria-label="Dismiss error"><X className="w-3.5 h-3.5" /></button>
           </div>
         )}
 

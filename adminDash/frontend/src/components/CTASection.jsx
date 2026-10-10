@@ -20,17 +20,16 @@ export default function CTASection({ userSession, onExplore, onEmergencyAccess, 
             {/* Ambient warm glow */}
             <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#E8E1D5]/40 rounded-full blur-3xl pointer-events-none"></div>
 
-            {/* Floating Animated Shield Graphic (No Background) */}
-            <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-5 flex items-center justify-center select-none pointer-events-none">
-              <img 
-                src="/shield_transparent.gif" 
-                alt="Command Protocol Shield" 
-                className="w-full h-full object-contain"
-                style={{
-                  animation: 'float 5s ease-in-out infinite',
-                  filter: 'drop-shadow(0 15px 25px rgba(139, 115, 85, 0.2))'
-                }}
-              />
+            {/* Tactical Vector Shield Badge */}
+            <div 
+              className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-6 flex items-center justify-center rounded-3xl bg-gradient-to-tr from-[#F4EFEB] via-white to-[#F9F7F3] border border-[#E8E1D5] shadow-lg shadow-[#8B7355]/15 select-none"
+              style={{
+                animation: 'float 5s ease-in-out infinite'
+              }}
+            >
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-[#8B7355] to-[#B85C38] flex items-center justify-center text-white shadow-md shadow-[#8B7355]/30">
+                <Shield className="w-6 h-6 sm:w-7 sm:h-7" />
+              </div>
             </div>
 
             {/* Minimal Badge */}
