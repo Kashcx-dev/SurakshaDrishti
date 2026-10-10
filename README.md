@@ -1,7 +1,5 @@
 <!-- markdownlint-disable -->
 
-**##NOTE: WORK IS POSTPONED TILL EXAMS ARE OVER - ##**
-
 <div align="center">
 
 <!-- Animated Header Wave with Title -->
