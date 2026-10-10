@@ -12,7 +12,7 @@ import { useCountUp } from '../utils/useCountUp';
 import { useScrollReveal } from '../utils/useScrollReveal';
 import Interactive3DCard from './Interactive3DCard';
 
-function StatCard({ icon: Icon, image, label, value, color, borderColor, glowColor }) {
+function StatCard({ icon: Icon, label, value, color, iconBg, iconBorder, borderColor, glowColor }) {
   const [ref, count] = useCountUp(value, 1500);
 
   return (
@@ -23,15 +23,9 @@ function StatCard({ icon: Icon, image, label, value, color, borderColor, glowCol
         style={{ '--glow': glowColor }}
       >
         <div className="flex items-center gap-3 relative z-10">
-          {image ? (
-            <div className="w-11 h-11 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 drop-shadow-sm">
-              <img src={image} alt={label} className="w-full h-full object-contain" />
-            </div>
-          ) : (
-            <div className={`p-2.5 rounded-xl ${color} bg-white shrink-0 group-hover:scale-110 transition-transform border border-[#E8E1D5]`}>
-              <Icon className={`w-5 h-5 ${color}`} />
-            </div>
-          )}
+          <div className={`w-11 h-11 rounded-xl ${iconBg || 'bg-[#F6F4F0]'} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 border ${iconBorder || 'border-[#E8E1D5]'} shadow-xs`}>
+            <Icon className={`w-5 h-5 ${color}`} />
+          </div>
           
           <div>
             <div className={`font-sans text-2xl sm:text-3xl font-black tabular-nums tracking-tight ${color}`}>
@@ -51,48 +45,53 @@ export default function LiveStatsStrip() {
   const stats = [
     {
       icon: AlertTriangle,
-      image: '/stat_hazard_gauge.webp',
       label: 'Active Red Zones',
       value: 14,
-      color: 'text-[#B85C38]',
-      borderColor: 'border-[#FADED4] hover:border-[#B85C38]/50',
-      glowColor: 'rgba(184, 92, 56, 0.15)',
+      color: 'text-[#DC2626]',
+      iconBg: 'bg-[#FEF2F2]',
+      iconBorder: 'border-[#FCA5A5]',
+      borderColor: 'border-[#FECACA] hover:border-[#DC2626]/50',
+      glowColor: 'rgba(220, 38, 38, 0.15)',
     },
     {
       icon: MapPin,
-      image: '/stat_high_risk_radar.webp',
       label: 'Vulnerable Habitations',
       value: 1420,
-      color: 'text-[#C05621]',
-      borderColor: 'border-[#FEEBC8] hover:border-[#C05621]/50',
-      glowColor: 'rgba(192, 86, 33, 0.15)',
+      color: 'text-[#D97706]',
+      iconBg: 'bg-[#FFFBEB]',
+      iconBorder: 'border-[#FCD34D]',
+      borderColor: 'border-[#FDE68A] hover:border-[#D97706]/50',
+      glowColor: 'rgba(217, 119, 6, 0.15)',
     },
     {
       icon: Users,
-      image: '/stat_shelter_bunker.webp',
       label: 'Shelter Capacity',
       value: 8500,
-      color: 'text-[#2D7A4F]',
-      borderColor: 'border-[#D4EDDA] hover:border-[#2D7A4F]/50',
-      glowColor: 'rgba(45, 122, 79, 0.15)',
+      color: 'text-[#059669]',
+      iconBg: 'bg-[#ECFDF5]',
+      iconBorder: 'border-[#6EE7B7]',
+      borderColor: 'border-[#A7F3D0] hover:border-[#059669]/50',
+      glowColor: 'rgba(5, 150, 105, 0.15)',
     },
     {
       icon: Home,
-      image: '/stat_biometric_shield.webp',
       label: 'Verified Relocations',
       value: 320,
-      color: 'text-[#4A4238]',
-      borderColor: 'border-[#E8E1D5] hover:border-[#4A4238]/50',
-      glowColor: 'rgba(74, 66, 56, 0.15)',
+      color: 'text-[#0284C7]',
+      iconBg: 'bg-[#F0F9FF]',
+      iconBorder: 'border-[#7DD3FC]',
+      borderColor: 'border-[#BAE6FD] hover:border-[#0284C7]/50',
+      glowColor: 'rgba(2, 132, 199, 0.15)',
     },
     {
       icon: Bell,
-      image: '/stat_critical_bell.webp',
       label: 'Broadcast Alerts',
       value: 28,
-      color: 'text-[#B85C38]',
-      borderColor: 'border-[#FADED4] hover:border-[#B85C38]/50',
-      glowColor: 'rgba(184, 92, 56, 0.20)',
+      color: 'text-[#7C3AED]',
+      iconBg: 'bg-[#F5F3FF]',
+      iconBorder: 'border-[#C4B5FD]',
+      borderColor: 'border-[#DDD6FE] hover:border-[#7C3AED]/50',
+      glowColor: 'rgba(124, 58, 237, 0.15)',
     },
   ];
 
