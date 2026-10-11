@@ -19,11 +19,11 @@ const FEATURES = [
     id: 'gsm',
     num: '01',
     icon: Radio,
-    image: '/feature_gsm_relay.webp',
     title: 'GSM 3.4 Telemetry Mesh',
     tagline: 'Zero-Broadband Emergency Relay',
     description: 'Broadcasts life-saving geohash evacuation alerts via localized cellular control channels without active internet.',
     color: 'text-[#8B7355]',
+    iconBg: 'bg-[#FDFBF7]',
     glowColor: 'rgba(139, 115, 85, 0.12)',
     badge: 'Hardware Ready',
     spec: 'Sub-second SMS Packet Delivery'
@@ -32,11 +32,11 @@ const FEATURES = [
     id: 'e2ee',
     num: '02',
     icon: Lock,
-    image: '/feature_e2ee_lock.webp',
     title: 'E2EE Inter-Agency Rail',
     tagline: 'Zero-Knowledge Operations',
     description: 'Cryptographic channel connecting NDRF, SDMAs, and District Collectors with tamper-proof casualty & order authentication.',
     color: 'text-[#4A4238]',
+    iconBg: 'bg-[#F6F4F0]',
     glowColor: 'rgba(74, 66, 56, 0.12)',
     badge: 'AES-GCM-256',
     spec: 'Ed25519 Signed Dispatch'
@@ -45,11 +45,11 @@ const FEATURES = [
     id: 'geohash',
     num: '03',
     icon: Compass,
-    image: '/feature_geohash_grid.webp',
     title: '8-Char Spatial Index',
     tagline: 'Sub-Meter Hazard Mapping',
     description: 'Hierarchical GeoHashes index perimeters for sub-second spatial queries across millions of vulnerable residents.',
     color: 'text-[#B85C38]',
+    iconBg: 'bg-[#FFF5F2]',
     glowColor: 'rgba(184, 92, 56, 0.12)',
     badge: 'Sub-Meter Grid',
     spec: '8-Character Precision (#tdv2n19z)'
@@ -58,11 +58,11 @@ const FEATURES = [
     id: 'dual-role',
     num: '04',
     icon: Users,
-    image: '/feature_dual_roles.webp',
     title: 'Command Console',
     tagline: 'Multi-Agency Authority HUD',
     description: 'Unified incident commander GIS layer manipulation, consensus resolution voting, and real-time field battalion coordination.',
     color: 'text-[#2D7A4F]',
+    iconBg: 'bg-[#F0FFF4]',
     glowColor: 'rgba(45, 122, 79, 0.12)',
     badge: 'RBAC Security',
     spec: 'NDRF & SDMA Multi-Agency RBAC'
@@ -71,11 +71,11 @@ const FEATURES = [
     id: 'carrying-capacity',
     num: '05',
     icon: Layers,
-    image: '/feature_carrying_capacity.webp',
     title: 'Safe Site Capacity AI',
     tagline: 'Multi-Objective Spatial Balancing',
     description: 'Balances terrain safety, shelter bed density, water logistics, and transit width to eliminate bottlenecking.',
     color: 'text-[#3E6B89]',
+    iconBg: 'bg-[#F0F7FA]',
     glowColor: 'rgba(62, 107, 137, 0.12)',
     badge: 'Load Balancing',
     spec: 'Real-Time Shelter Occupancy'
@@ -84,11 +84,11 @@ const FEATURES = [
     id: 'proactive-evac',
     num: '06',
     icon: Route,
-    image: '/feature_proactive_evacuation.webp',
     title: 'Priority Evac Matrix',
     tagline: 'Vulnerability-First Dispatch',
     description: 'Combines slope shear indices with household demographics (elderly, infants) to sequence proactive convoy evacuations.',
     color: 'text-[#B85C38]',
+    iconBg: 'bg-[#FFF5F2]',
     glowColor: 'rgba(184, 92, 56, 0.12)',
     badge: '48hr Advance',
     spec: 'Zero-Bottleneck Routing Corridors'
@@ -209,15 +209,9 @@ export default function FeaturesShowcase() {
                     
                     {/* Top Bar: Visual Asset + Module Code */}
                     <div className="flex items-center justify-between">
-                      {feature.image ? (
-                        <div className="w-14 h-14 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 drop-shadow-sm select-none pointer-events-none">
-                          <img src={feature.image} alt={feature.title} className="w-full h-full object-contain" />
-                        </div>
-                      ) : (
-                        <div className="p-3 rounded-2xl bg-[#F6F4F0] border border-[#E8E1D5] transition-transform duration-300 group-hover:scale-110">
-                          <Icon className={`w-6 h-6 ${feature.color}`} />
-                        </div>
-                      )}
+                      <div className={`w-12 h-12 rounded-2xl ${feature.iconBg || 'bg-[#F6F4F0]'} border border-[#E8E1D5] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-xs`}>
+                        <Icon className={`w-6 h-6 ${feature.color}`} />
+                      </div>
 
                       <span className={`text-[11px] font-mono font-bold transition-colors border px-2.5 py-0.5 rounded-full ${
                         isCardRevealed 

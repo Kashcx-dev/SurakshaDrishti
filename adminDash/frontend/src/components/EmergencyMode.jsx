@@ -205,9 +205,9 @@ export default function EmergencyMode({ onClose, onAuthSuccess }) {
                 </div>
                 <button 
                   onClick={() => setActiveModalAction(null)}
-                  className="text-[#7A726A] hover:text-[#1A1A1A] text-xs cursor-pointer font-bold"
+                  className="text-[#7A726A] hover:text-[#1A1A1A] text-xs cursor-pointer font-bold inline-flex items-center gap-1"
                 >
-                  ✕ Close
+                  <X className="w-3.5 h-3.5" /> Close
                 </button>
               </div>
 
@@ -245,9 +245,9 @@ export default function EmergencyMode({ onClose, onAuthSuccess }) {
                 </div>
                 <button 
                   onClick={() => setActiveModalAction(null)}
-                  className="text-[#7A726A] hover:text-[#1A1A1A] text-xs cursor-pointer shrink-0 ml-1 font-bold"
+                  className="text-[#7A726A] hover:text-[#1A1A1A] text-xs cursor-pointer shrink-0 ml-1 font-bold inline-flex items-center gap-1"
                 >
-                  ✕ Close
+                  <X className="w-3.5 h-3.5" /> Close
                 </button>
               </div>
 
@@ -283,9 +283,9 @@ export default function EmergencyMode({ onClose, onAuthSuccess }) {
                 </div>
                 <button 
                   onClick={() => setActiveModalAction(null)}
-                  className="text-[#7A726A] hover:text-[#1A1A1A] text-xs cursor-pointer font-bold"
+                  className="text-[#7A726A] hover:text-[#1A1A1A] text-xs cursor-pointer font-bold inline-flex items-center gap-1"
                 >
-                  ✕ Close
+                  <X className="w-3.5 h-3.5" /> Close
                 </button>
               </div>
 

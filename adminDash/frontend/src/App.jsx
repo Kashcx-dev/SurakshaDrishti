@@ -20,8 +20,10 @@ import TermsOfService from './components/pages/TermsOfService';
 import Faqs from './components/pages/Faqs';
 import Documentation from './components/pages/Documentation';
 import UserProfile from './components/pages/UserProfile';
+import { useToast } from './components/Toast';
 
 export default function App() {
+  const { addToast } = useToast();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -141,6 +143,58 @@ export default function App() {
     if (['NDRF', 'SDMA', 'DDMA', 'POLICE', 'FIRE_FORCE', 'AUTHORITY', 'NDRF_OFFICER', 'DEMO_OFFICER'].includes(role)) {
       navigate('/dashboard');
     }
+  };
+
+  const handleQuickDemoLogin = (roleKey = 'ndrf') => {
+    const demoProfiles = {
+      ndrf: {
+        username: 'ndrf_admin',
+        name: 'Cmdr. Rajesh Verma',
+        fullName: 'Cmdr. Rajesh Verma (NDRF)',
+        role: 'NDRF',
+        department: '04 Battalion Field Lead',
+        district: 'Wayanad Sector 4 (Meppadi)',
+        officer_mode: 'ON_SITE',
+        isDemoAccount: true,
+      },
+      sdma: {
+        username: 'sdma_officer',
+        name: 'Dr. Ananya Nair',
+        fullName: 'Dr. Ananya Nair (SDMA)',
+        role: 'SDMA',
+        department: 'State Emergency Operations Hub',
+        district: 'Kerala State Ops (Trivandrum)',
+        officer_mode: 'OFF_SITE',
+        isDemoAccount: true,
+      },
+      ddma: {
+        username: 'collector_wayanad',
+        name: 'Arvind Swaminathan, IAS',
+        fullName: 'Arvind Swaminathan, IAS (DDMA)',
+        role: 'DDMA',
+        department: 'District Disaster Management Authority',
+        district: 'Wayanad Central Collectorate',
+        officer_mode: 'OFF_SITE',
+        isDemoAccount: true,
+      },
+      fire: {
+        username: 'fire_rescue_01',
+        name: 'Officer Thomas Mathew',
+        fullName: 'Officer Thomas Mathew (Fire & Rescue)',
+        role: 'FIRE_FORCE',
+        department: 'Forward Tactical Rescue Post',
+        district: 'Chooralmala SAR Post',
+        officer_mode: 'ON_SITE',
+        isDemoAccount: true,
+      },
+    };
+
+    const selected = demoProfiles[roleKey.toLowerCase()] || demoProfiles.ndrf;
+    addToast(`1-Click Demo Active: ${selected.name} (${selected.role})`, 'success');
+    handleAuthSuccess({
+      token: `jwt_demo_${selected.role.toLowerCase()}_${Date.now()}`,
+      user: selected,
+    });
   };
 
   const handleLogout = () => {
@@ -430,7 +484,7 @@ export default function App() {
         <Navbar 
           onSignIn={() => handleOpenAuth('signin')}
           onSignUp={() => handleOpenAuth('signup')}
-          onOpenDemo={() => handleOpenAuth('signin')}
+          onOpenDemo={() => handleOpenAuth('demo')}
           onEmergencyAccess={() => setShowEmergency(true)}
           userSession={userSession}
           onNavigateDashboard={() => navigate('/dashboard')}
@@ -467,7 +521,7 @@ export default function App() {
               else handleOpenAuth('signin');
             }}
             onSignUp={() => handleOpenAuth('signup')}
-            onOpenDemo={() => handleOpenAuth('signin')}
+            onOpenDemo={() => handleOpenAuth('demo')}
             onNavigateDashboard={() => navigate('/dashboard')}
             onEmergencyAccess={() => setShowEmergency(true)}
             onQuickSign={() => setShowQuickSign(true)}

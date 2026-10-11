@@ -14,11 +14,10 @@ import Interactive3DCard from './Interactive3DCard';
 const steps = [
   {
     icon: Satellite,
-    image: '/satellite_transparent.gif',
     title: 'Data Ingestion',
     description: 'Fusing ISRO satellite telemetry, IMD precipitation radars, and terrain IoT sensors.',
     color: 'text-[#8B7355]',
-    bg: 'bg-[#F6F4F0]',
+    bg: 'bg-[#FDFBF7]',
     border: 'border-[#E8E1D5]',
     hoverBorder: 'group-hover:border-[#8B7355]/50',
     glowColor: 'rgba(139, 115, 85, 0.12)',
@@ -26,7 +25,6 @@ const steps = [
   },
   {
     icon: Brain,
-    image: '/ai-art_transparent.gif',
     title: 'Hazard Scoring AI',
     description: 'Ensemble XGBoost models evaluate slope shear stress, flood vectors, and slip recurrence.',
     color: 'text-[#4A4238]',
@@ -38,11 +36,10 @@ const steps = [
   },
   {
     icon: Users,
-    image: '/demographic_transparent.gif',
     title: 'Vulnerability Overlay',
     description: 'Cross-indexes household demographics, access routes, and structural fragility in geohashes.',
     color: 'text-[#C05621]',
-    bg: 'bg-[#F6F4F0]',
+    bg: 'bg-[#FFF5F2]',
     border: 'border-[#E8E1D5]',
     hoverBorder: 'group-hover:border-[#C05621]/50',
     glowColor: 'rgba(192, 86, 33, 0.12)',
@@ -50,11 +47,10 @@ const steps = [
   },
   {
     icon: MapPin,
-    image: '/drone_transparent.gif',
     title: 'Relocation AI Matrix',
     description: 'Multi-objective carrying capacity allocation across safe shelters with zero bottlenecking.',
     color: 'text-[#2D7A4F]',
-    bg: 'bg-[#F6F4F0]',
+    bg: 'bg-[#F0FFF4]',
     border: 'border-[#E8E1D5]',
     hoverBorder: 'group-hover:border-[#2D7A4F]/50',
     glowColor: 'rgba(45, 122, 79, 0.12)',
@@ -100,15 +96,9 @@ function StepCard({ step, index }) {
           <div className="relative z-10 space-y-4">
             
             <div className="flex items-center justify-between">
-              {step.image ? (
-                <div className="w-16 h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 drop-shadow-sm select-none pointer-events-none">
-                  <img src={step.image} alt={step.title} className="w-full h-full object-contain" />
-                </div>
-              ) : (
-                <div className={`p-3 rounded-2xl ${step.bg} border border-[#E8E1D5] transition-transform duration-300 group-hover:scale-110 shadow-sm`}>
-                  <step.icon className={`w-5 h-5 ${step.color}`} />
-                </div>
-              )}
+              <div className={`w-12 h-12 rounded-2xl ${step.bg} border border-[#E8E1D5] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-xs`}>
+                <step.icon className={`w-6 h-6 ${step.color}`} />
+              </div>
               
               <span className="text-[10px] font-mono font-bold text-[#8C847A] group-hover:text-[#4A4238] transition-colors bg-[#F6F4F0] border border-[#E8E1D5] px-2.5 py-0.5 rounded-full">
                 STAGE 0{index + 1}
@@ -251,15 +241,9 @@ export default function HowItWorks() {
 
                       <div className="relative z-10 space-y-4">
                         <div className="flex items-center justify-between">
-                          {step.image ? (
-                            <div className="w-16 h-16 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 drop-shadow-sm select-none pointer-events-none">
-                              <img src={step.image} alt={step.title} className="w-full h-full object-contain" />
-                            </div>
-                          ) : (
-                            <div className={`p-3 rounded-2xl ${step.bg} border border-[#E8E1D5] transition-transform duration-300 group-hover:scale-110 shadow-sm`}>
-                              <step.icon className={`w-5 h-5 ${step.color}`} />
-                            </div>
-                          )}
+                          <div className={`w-12 h-12 rounded-2xl ${step.bg} border border-[#E8E1D5] flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-xs`}>
+                            <step.icon className={`w-6 h-6 ${step.color}`} />
+                          </div>
                           
                           <span className={`text-[10px] font-mono font-bold transition-colors border px-2.5 py-0.5 rounded-full ${
                             isCardRevealed 

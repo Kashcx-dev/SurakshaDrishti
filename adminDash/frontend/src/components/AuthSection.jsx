@@ -21,10 +21,69 @@ import {
   Sparkles,
   Building2,
   ChevronRight,
-  Key
+  Key,
+  Globe,
+  Compass,
+  Radio,
+  Flame
 } from 'lucide-react';
 import { apiService, checkGeofenceRedZoneStatus } from '../utils/api';
 import { useToast } from './Toast';
+
+const DEMO_ACCOUNTS = [
+  {
+    id: 'ndrf',
+    role: 'NDRF',
+    badge: 'NDRF COMMAND',
+    badgeColor: 'bg-blue-900/10 text-blue-800 border-blue-200/80',
+    title: 'NDRF Incident Commander',
+    name: 'Cmdr. Rajesh Verma',
+    rank: '04 Battalion Field Lead',
+    district: 'Wayanad Sector 4 (Meppadi)',
+    officer_mode: 'ON_SITE',
+    email: 'ndrf.command@mha.gov.in',
+    username: 'ndrf_admin',
+  },
+  {
+    id: 'sdma',
+    role: 'SDMA',
+    badge: 'STATE AUTHORITY',
+    badgeColor: 'bg-emerald-900/10 text-emerald-800 border-emerald-200/80',
+    title: 'SDMA Operations Officer',
+    name: 'Dr. Ananya Nair',
+    rank: 'State Emergency Operations Hub',
+    district: 'Kerala State Ops (Trivandrum)',
+    officer_mode: 'OFF_SITE',
+    email: 'operations@keralasdma.gov.in',
+    username: 'sdma_officer',
+  },
+  {
+    id: 'ddma',
+    role: 'DDMA',
+    badge: 'DISTRICT COLLECTOR',
+    badgeColor: 'bg-amber-900/10 text-amber-800 border-amber-200/80',
+    title: 'DDMA District Magistrate',
+    name: 'Arvind Swaminathan, IAS',
+    rank: 'District Collector & DM',
+    district: 'Wayanad Central Collectorate',
+    officer_mode: 'OFF_SITE',
+    email: 'collector.wayanad@kerala.gov.in',
+    username: 'collector_wayanad',
+  },
+  {
+    id: 'fire',
+    role: 'FIRE_FORCE',
+    badge: 'FIRE & RESCUE',
+    badgeColor: 'bg-rose-900/10 text-rose-800 border-rose-200/80',
+    title: 'Fire & Rescue Station Lead',
+    name: 'Officer Thomas Mathew',
+    rank: 'Forward Tactical Rescue Post',
+    district: 'Chooralmala SAR Post',
+    officer_mode: 'ON_SITE',
+    email: 'rescue.wayanad@keralafire.gov.in',
+    username: 'fire_rescue_01',
+  },
+];
 
 export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuccess }) {
   const { addToast } = useToast();
@@ -223,104 +282,298 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
     }
   };
 
+  const handleLaunchDemoCase = (demo) => {
+    setIsLoading(true);
+    addToast(`Authorizing 1-Click Profile: ${demo.name} (${demo.role})...`, 'info');
+    setTimeout(() => {
+      setIsLoading(false);
+      addToast(`Session Active: Welcome, ${demo.title}!`, 'success');
+      onAuthSuccess({
+        token: `jwt_demo_${demo.id}_${Date.now()}`,
+        user: {
+          username: demo.username,
+          name: demo.name,
+          fullName: `${demo.name} (${demo.role})`,
+          role: demo.role,
+          department: demo.rank,
+          district: demo.district,
+          officer_mode: demo.officer_mode,
+          isDemoAccount: true,
+        }
+      });
+    }, 450);
+  };
+
   return (
     <div
-      className="fixed inset-0 z-[100] bg-[#2C2A29]/60 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 overflow-y-auto"
+      className="fixed inset-0 z-[100] bg-[#090F16] flex flex-col w-screen h-screen overflow-hidden animate-fade-in"
       role="dialog"
       aria-modal="true"
       aria-label="Authentication portal"
     >
-      <div className="w-full max-w-lg my-auto animate-scale-in max-h-[90vh] flex flex-col justify-center">
-        
-        {/* Red Zone Context Banner */}
-        {locationStatus?.inRedZone && (
-          <div className="flex items-center justify-between gap-2 px-4 py-2.5 rounded-t-2xl bg-[#FFF5F2] border border-[#FADED4] border-b-0 text-[11px] sm:text-xs shrink-0">
-            <div className="flex items-center gap-1.5 sm:gap-2 truncate">
-              <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B85C38] shrink-0" />
-              <span className="text-[#5C544D] truncate">
-                Red Zone Vicinity: <span className="text-[#1A1A1A] font-bold">{locationStatus.name}</span>
-              </span>
-            </div>
-            <span className="px-2 py-0.5 rounded bg-[#B85C38] text-white font-bold text-[9px] sm:text-[10px] uppercase shrink-0">
-              Priority Pass Ready
+      {/* Red Zone Context Banner */}
+      {locationStatus?.inRedZone && (
+        <div className="flex items-center justify-between gap-3 px-6 py-2.5 bg-[#FFF5F2] border-b border-[#FADED4] text-xs shrink-0 z-30">
+          <div className="flex items-center gap-2 truncate">
+            <MapPin className="w-4 h-4 text-[#B85C38] shrink-0" />
+            <span className="text-[#5C544D] truncate">
+              Red Zone Vicinity: <span className="text-[#1A1A1A] font-bold">{locationStatus.name}</span>
             </span>
           </div>
-        )}
+          <span className="px-2.5 py-0.5 rounded bg-[#B85C38] text-white font-bold text-[10px] uppercase shrink-0">
+            Priority Evac Pass Ready
+          </span>
+        </div>
+      )}
 
-        {/* Modal Card */}
-        <div className={`bg-white/95 border border-[#E8E1D5] ${
-          locationStatus?.inRedZone ? 'rounded-b-2xl rounded-t-none' : 'rounded-2xl'
-        } p-6 sm:p-8 shadow-2xl backdrop-blur-xl overflow-y-auto max-h-[85vh] sm:max-h-[80vh]`}>
-          
-          {/* Top Header & Close */}
-          <div className="flex items-start justify-between gap-3 mb-5">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                  <img 
-                    src="/favicon.webp" 
-                    alt="SurakshaDrishti Emblem" 
-                    className="w-full h-full object-contain" 
-                  />
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8B7355]">
-                  SurakshaDrishti Security
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] tracking-tight">
-                {authMode === 'otp'
-                  ? 'Two-Factor Authentication'
-                  : authMode === 'signup'
-                  ? 'Field Personnel Registration'
-                  : 'Official Command Desk Sign In'}
-              </h2>
-              <p className="text-xs text-[#5C544D] mt-0.5">
-                {authMode === 'otp'
-                  ? 'Enter the secure OTP code sent to your official device'
-                  : authMode === 'signup'
-                  ? 'Register authorized field officers, SDRF/NDRF responders, or local disaster coordinators'
-                  : 'Centralized access for NDRF, SDMA, Police, and Fire Rescue officers with pre-provisioned credentials'}
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 rounded-xl bg-[#F6F4F0] hover:bg-[#E8E1D5] text-[#5C544D] hover:text-[#1A1A1A] transition-colors cursor-pointer shrink-0"
-              aria-label="Close modal"
-            >
-              <X className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
+      {/* Full-Screen Split Layout */}
+      <div className="w-full flex-1 grid grid-cols-1 lg:grid-cols-12 h-full overflow-hidden">
+        
+        {/* ══════════════ LEFT PART: Clean Earth Surface with India from Orbit & Rich Mission Overview (Hidden on Mobile) ══════════════ */}
+        <div className="hidden lg:flex lg:col-span-6 xl:col-span-6 relative bg-[#090F16] text-white p-6 lg:p-8 xl:p-10 flex-col justify-between overflow-hidden shrink-0 border-r border-white/10 h-full">
+          {/* Background Clean Earth Surface from Space with India Prominently Visible (Compressed WebP, No text on image) */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img 
+              src="/login_earth_surface.webp" 
+              alt="Planet Earth with Indian Subcontinent from Space Orbit" 
+              className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-1000 ease-out select-none"
+            />
+            {/* Atmospheric vignettes keeping the Earth view clear while ensuring text contrast */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#090F16] via-[#090F16]/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#090F16]/20 to-[#090F16]/60 hidden lg:block"></div>
           </div>
 
-          {authMode !== 'otp' && (
-            <div className="flex rounded-xl bg-[#F6F4F0] p-1 mb-5 border border-[#E8E1D5]">
-              <button
-                type="button"
-                onClick={() => setAuthMode('signin')}
-                className={`flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  authMode === 'signin'
-                    ? 'bg-white text-[#1A1A1A] shadow-xs'
-                    : 'text-[#7A726A] hover:text-[#1A1A1A]'
-                }`}
-              >
-                <LogIn className="w-3.5 h-3.5" />
-                <span>Command Sign In</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setAuthMode('signup')}
-                className={`flex-1 py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  authMode === 'signup'
-                    ? 'bg-white text-[#1A1A1A] shadow-xs'
-                    : 'text-[#7A726A] hover:text-[#1A1A1A]'
-                }`}
-              >
-                <UserPlus className="w-3.5 h-3.5" />
-                <span>Register Personnel</span>
-              </button>
+          {/* Top Brand Header */}
+          <div className="relative z-10 flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 flex items-center justify-center shrink-0">
+                <img 
+                  src="/favicon.webp" 
+                  alt="SurakshaDrishti" 
+                  className="w-full h-full object-contain drop-shadow-md" 
+                />
+              </div>
+              <div>
+                <h3 className="text-base font-bold tracking-tight text-white flex items-center gap-1.5">
+                  SurakshaDrishti
+                </h3>
+                <p className="text-[11px] text-gray-300 font-mono tracking-wider uppercase">
+                  National Disaster Decision Support System
+                </p>
+              </div>
             </div>
-          )}
+            <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-[#8B7355]/30 border border-[#8B7355]/50 text-[#E8D7C3] uppercase font-bold shrink-0 backdrop-blur-md">
+              SIH 28191
+            </span>
+          </div>
 
-          {authMode === 'otp' ? (
+          {/* Middle Application Information & Mission Overview */}
+          <div className="relative z-10 my-auto py-2 max-w-xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 backdrop-blur-md text-xs font-mono font-medium text-emerald-300 mb-3 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              MULTI-SATELLITE TELEMETRY ACTIVE • ISRO & IMD
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight mb-2.5 drop-shadow-md">
+              Predict. Protect. Relocate.
+            </h2>
+            <p className="text-xs sm:text-sm text-gray-200 leading-relaxed font-light mb-5 drop-shadow-sm">
+              National Decision Support System fusing ISRO SAR satellite radar, IMD precipitation telemetry, and sub-meter GeoHash carrying capacity for proactive disaster mitigation.
+            </p>
+
+            {/* Application Core Pillars (Upper, directly below the mission text) */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <div className="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-sm">
+                <div className="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mb-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                </div>
+                <p className="text-xs font-bold text-white mb-0.5">8-Char GeoHash Grid</p>
+                <p className="text-[10px] text-gray-300 leading-snug">Sub-meter hazard evaluation & triage.</p>
+              </div>
+
+              <div className="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-sm">
+                <div className="w-7 h-7 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 mb-1.5">
+                  <Zap className="w-3.5 h-3.5" />
+                </div>
+                <p className="text-xs font-bold text-white mb-0.5">GSM 3.4 Relay</p>
+                <p className="text-[10px] text-gray-300 leading-snug">Zero-internet emergency corridors.</p>
+              </div>
+
+              <div className="bg-black/50 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-sm">
+                <div className="w-7 h-7 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shrink-0 mb-1.5">
+                  <Lock className="w-3.5 h-3.5" />
+                </div>
+                <p className="text-xs font-bold text-white mb-0.5">Command Security</p>
+                <p className="text-[10px] text-gray-300 leading-snug">Ed25519 tamper-proof officer verification.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Footer Info */}
+          <div className="relative z-10 pt-3 border-t border-white/15 flex items-center justify-between text-[11px] font-mono text-gray-400">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              OFFICIAL COMMAND DESK
+            </span>
+            <span className="text-gray-300 font-semibold tracking-wider text-[10px]">AES-256-GCM ENCRYPTED</span>
+          </div>
+        </div>
+
+        {/* ══════════════ RIGHT PART: Register / Sign In Fields (Centered vertically w.r.t top and bottom) ══════════════ */}
+        <div className="col-span-1 lg:col-span-6 xl:col-span-6 h-full bg-[#FDFBF7] px-6 sm:px-8 lg:px-10 xl:px-12 py-6 lg:py-8 flex flex-col justify-center items-center overflow-y-auto lg:overflow-hidden relative shadow-2xl">
+          
+          {/* Top-Right Absolute Close Button */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 p-2 rounded-xl bg-[#F6F4F0] hover:bg-[#E8E1D5] text-[#5C544D] hover:text-[#1A1A1A] transition-colors cursor-pointer shrink-0 shadow-2xs"
+            aria-label="Close modal"
+          >
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+
+          {/* Centered Right Content Block (Middle w.r.t Top and Bottom) */}
+          <div className="w-full max-w-xl flex flex-col justify-center">
+            {/* Top Header & Navigation Switcher */}
+            <div className="shrink-0 mb-3 sm:mb-4">
+              <div className="pr-10 mb-2.5">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <div className="w-4 h-4 flex items-center justify-center shrink-0">
+                    <Lock className="w-3.5 h-3.5 text-[#8B7355]" />
+                  </div>
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8B7355]">
+                    Officer Access Portal
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1A1A1A] tracking-tight">
+                  {authMode === 'otp'
+                    ? 'Two-Factor Authentication'
+                    : authMode === 'signup'
+                    ? 'Field Personnel Registration'
+                    : authMode === 'demo'
+                    ? '1-Click Evaluation Profiles'
+                    : 'Official Command Desk Sign In'}
+                </h2>
+                <p className="text-xs text-[#5C544D] mt-0.5">
+                  {authMode === 'otp'
+                    ? 'Enter the secure OTP code sent to your official device'
+                    : authMode === 'signup'
+                    ? 'Register authorized field officers, SDRF/NDRF responders, or local disaster coordinators'
+                    : authMode === 'demo'
+                    ? 'Select any operational authority below for instant automated access into the tactical command console'
+                    : 'Centralized access for NDRF, SDMA, Police, and Fire Rescue officers with pre-provisioned credentials'}
+                </p>
+              </div>
+
+              {authMode !== 'otp' && (
+                <div className="flex rounded-xl bg-[#F6F4F0] p-1 border border-[#E8E1D5]">
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('demo')}
+                  className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    authMode === 'demo'
+                      ? 'bg-white text-[#1A1A1A] shadow-xs'
+                      : 'text-[#7A726A] hover:text-[#1A1A1A]'
+                  }`}
+                >
+                  <Zap className="w-3.5 h-3.5 text-[#8B7355]" />
+                  <span>1-Click Demo</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('signin')}
+                  className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    authMode === 'signin'
+                      ? 'bg-white text-[#1A1A1A] shadow-xs'
+                      : 'text-[#7A726A] hover:text-[#1A1A1A]'
+                  }`}
+                >
+                  <LogIn className="w-3.5 h-3.5" />
+                  <span>Sign In</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('signup')}
+                  className={`flex-1 py-1.5 sm:py-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    authMode === 'signup'
+                      ? 'bg-white text-[#1A1A1A] shadow-xs'
+                      : 'text-[#7A726A] hover:text-[#1A1A1A]'
+                  }`}
+                >
+                  <UserPlus className="w-3.5 h-3.5" />
+                  <span>Register</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {authMode === 'demo' ? (
+            /* ================= MODE: 1-CLICK DEMO CASES ================= */
+            <div className="space-y-4">
+              <div className="p-3.5 rounded-2xl bg-[#F6F4F0] border border-[#E8E1D5]">
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-[#8B7355] text-white flex items-center justify-center shadow-2xs">
+                      <Zap className="w-3 h-3 text-white" />
+                    </div>
+                    <span className="text-xs font-bold text-[#1A1A1A]">
+                      Select an Official Evaluation Profile
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono text-[#8B7355] font-bold uppercase bg-white px-2 py-0.5 rounded-full border border-[#E8E1D5]">
+                    No Passwords Needed
+                  </span>
+                </div>
+                <p className="text-[11px] text-[#5C544D] leading-relaxed">
+                  Click any operational role below to immediately enter the command console with that officer's live jurisdiction & privileges:
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {DEMO_ACCOUNTS.map((demo) => (
+                  <button
+                    key={demo.id}
+                    type="button"
+                    onClick={() => handleLaunchDemoCase(demo)}
+                    disabled={isLoading}
+                    className="group flex flex-col justify-between p-3.5 rounded-2xl bg-white hover:bg-[#FDFBF7] border border-[#E8E1D5] hover:border-[#8B7355] text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] cursor-pointer"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-1 mb-2">
+                        <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border uppercase ${demo.badgeColor}`}>
+                          {demo.badge}
+                        </span>
+                        <span className="text-[10px] font-bold text-[#8B7355] group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
+                          Launch <ArrowRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                      <div className="text-sm font-bold text-[#1A1A1A] group-hover:text-[#8B7355] transition-colors">
+                        {demo.name}
+                      </div>
+                      <div className="text-xs text-[#7A726A] font-medium mt-0.5">
+                        {demo.title}
+                      </div>
+                    </div>
+
+                    <div className="mt-3 pt-2.5 border-t border-[#F2ECE2] flex items-center justify-between text-[10px] text-[#8C847A] font-mono">
+                      <span className="truncate">{demo.district}</span>
+                      <span className="px-1.5 py-0.5 rounded bg-[#F6F4F0] text-[#4A4238] font-bold uppercase shrink-0">
+                        {demo.officer_mode}
+                      </span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={() => setAuthMode('signin')}
+                  className="text-xs text-[#8B7355] hover:underline font-semibold cursor-pointer inline-flex items-center gap-1"
+                >
+                  Need official Gov / Service ID login? Switch to Sign In <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+          ) : authMode === 'otp' ? (
             /* ================= MODE: 2FA OTP ================= */
             <div>
               <div className="mb-4 p-3 bg-[#FFF5F2] rounded-xl border border-[#FADED4] flex items-center justify-center gap-2 text-[#B85C38] font-bold text-sm">
@@ -366,145 +619,193 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
             </div>
           ) : authMode === 'signup' ? (
             /* ================= MODE: PERSONNEL REGISTRATION ================= */
-            <div>
-              <div className="mb-4 p-3 bg-[#F6F4F0] rounded-xl border border-[#E8E1D5] flex items-center justify-between">
-                <div className="flex items-center gap-2 text-[#1A1A1A] font-bold text-xs sm:text-sm">
-                  <UserPlus className="w-4 h-4 text-[#8B7355]" />
-                  <span>Field & Responder Onboarding</span>
+            <div className="flex-1 flex flex-col justify-start">
+              {/* Tactical Badge & Intro */}
+              <div className="mb-3 p-3 rounded-2xl bg-gradient-to-r from-[#F6F4F0] via-[#FAF8F5] to-[#F6F4F0] border border-[#E8E1D5] flex items-center justify-between shadow-2xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-xl bg-[#8B7355]/15 text-[#8B7355] flex items-center justify-center shrink-0 border border-[#8B7355]/20 shadow-2xs">
+                    <UserPlus className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-[#1A1A1A] flex items-center gap-1.5">
+                      Field Responder Onboarding
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    </div>
+                    <p className="text-[10px] text-[#7A726A] font-medium leading-tight">
+                      Tactical clearance for NDRF, SDMA, and Disaster Response Units
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#E8E1D5] text-[#4A4238] font-bold uppercase">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#E8E1D5]/80 text-[#4A4238] font-bold uppercase shrink-0 border border-[#DCD5C9]">
                   Field Unit
                 </span>
               </div>
 
-              <form onSubmit={handleSignUp} className="space-y-3.5">
-                <div>
-                  <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Full Name</label>
-                  <div className="relative">
-                    <User className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                    <input
-                      type="text"
-                      required
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Inspector Rajesh Verma"
-                      className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Structured Registration Form */}
+              <form onSubmit={handleSignUp} className="space-y-3">
+                {/* Row 1: Full Name & Official Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Official Email</label>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Full Officer Name
+                    </label>
                     <div className="relative">
-                      <Mail className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
+                      <User className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <input
+                        type="text"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Inspector Rajesh Verma"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Official Gov Email
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
                       <input
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="rajesh.ndrf@gov.in"
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Phone Number</label>
-                    <div className="relative">
-                      <Phone className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+91 9876543210"
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Row 2: Phone Number & Tactical Role */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Tactical Role</label>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Emergency Contact Number
+                    </label>
                     <div className="relative">
-                      <Shield className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                      <select
-                        value={signupRole}
-                        onChange={(e) => setSignupRole(e.target.value)}
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] focus:outline-none focus:border-[#8B7355] transition-colors cursor-pointer"
-                      >
-                        <option value="ndrf">NDRF Task Force</option>
-                        <option value="sdma">SDMA Officer</option>
-                        <option value="police">State Police Dispatch</option>
-                        <option value="fire_rescue">Fire & Rescue</option>
-                      </select>
+                      <Phone className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <input
+                        type="tel"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="+91 98765 43210"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
+                      />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Assigned District</label>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Assigned Tactical Role
+                    </label>
                     <div className="relative">
-                      <Building2 className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
+                      <Shield className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <select
+                        value={signupRole}
+                        onChange={(e) => setSignupRole(e.target.value)}
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] focus:outline-none transition-all cursor-pointer shadow-2xs font-medium"
+                      >
+                        <option value="ndrf">NDRF Task Force</option>
+                        <option value="sdma">SDMA Operations</option>
+                        <option value="police">State Police Dispatch</option>
+                        <option value="fire_rescue">Fire & Rescue Unit</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 3: Assigned District & Security Passcode */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Operational District / Sector
+                    </label>
+                    <div className="relative">
+                      <Building2 className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
                       <input
                         type="text"
                         required
                         value={district}
                         onChange={(e) => setDistrict(e.target.value)}
                         placeholder="Wayanad Sector 4"
-                        className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-bold text-[#2C2A29] mb-0.5">
+                      Security Passcode
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-3.5 h-3.5 absolute left-3 top-2.5 text-[#8C847A]" />
+                      <input
+                        type="password"
+                        required
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                        placeholder="••••••••••••"
+                        className="w-full bg-white border border-[#E8E1D5] hover:border-[#8B7355]/50 focus:border-[#8B7355] rounded-xl py-1.5 sm:py-2 pl-9 pr-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] focus:outline-none transition-all shadow-2xs"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-[#2C2A29] mb-1">Password</label>
-                  <div className="relative">
-                    <Lock className="w-4 h-4 absolute left-3.5 top-3 text-[#7A726A]" />
-                    <input
-                      type="password"
-                      required
-                      value={signupPassword}
-                      onChange={(e) => setSignupPassword(e.target.value)}
-                      placeholder="••••••••••••"
-                      className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 pl-10 pr-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] focus:outline-none focus:border-[#8B7355] transition-colors"
-                    />
-                  </div>
-                </div>
-
-                {/* GPS Coordinates */}
-                <div>
+                {/* Row 4: Sector GPS Telemetry with Integrated Detector */}
+                <div className="bg-[#FAF8F5] p-2 sm:p-2.5 rounded-xl border border-[#E8E1D5]">
                   <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-semibold text-[#2C2A29]">Current Sector GPS</label>
+                    <label className="text-[11px] font-bold text-[#2C2A29] flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#8B7355]" />
+                      <span>Current Sector GPS Telemetry</span>
+                    </label>
                     <button
                       type="button"
                       onClick={handleDetectGPS}
                       disabled={isDetectingGPS}
-                      className="text-[11px] text-[#8B7355] hover:underline flex items-center gap-1 cursor-pointer"
+                      className="px-2 py-0.5 rounded-lg bg-white hover:bg-[#F6F4F0] border border-[#E8E1D5] text-[10px] font-semibold text-[#8B7355] flex items-center gap-1 transition-all cursor-pointer shadow-2xs disabled:opacity-50"
                     >
-                      <Crosshair className="w-3 h-3" />
-                      {isDetectingGPS ? 'Detecting...' : 'Detect Coordinates'}
+                      <Crosshair className={`w-3 h-3 ${isDetectingGPS ? 'animate-spin' : ''}`} />
+                      <span>{isDetectingGPS ? 'Acquiring Satellites...' : 'Detect Coordinates'}</span>
                     </button>
                   </div>
-                  <input
-                    type="text"
-                    value={detectedLoc || ''}
-                    onChange={(e) => setDetectedLoc(e.target.value)}
-                    placeholder="e.g. 11.6854, 76.1320"
-                    className="w-full bg-[#FDFBF7] border border-[#E8E1D5] rounded-xl py-2 px-3 text-xs sm:text-sm text-[#1A1A1A] placeholder-[#8C847A] font-mono focus:outline-none focus:border-[#8B7355] transition-colors"
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={detectedLoc || ''}
+                      onChange={(e) => setDetectedLoc(e.target.value)}
+                      placeholder="e.g. 11.6854, 76.1320 (Sub-meter Latitude, Longitude)"
+                      className="w-full bg-white border border-[#E8E1D5] focus:border-[#8B7355] rounded-lg py-1.5 px-3 text-xs text-[#1A1A1A] placeholder-[#9C948A] font-mono focus:outline-none transition-all shadow-2xs"
+                    />
+                  </div>
                 </div>
 
+                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3.5 rounded-xl bg-[#2C2A29] hover:bg-[#1A1A1A] text-[#FDFBF7] font-medium text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer hover:-translate-y-0.5 mt-2"
+                  className="w-full py-2.5 sm:py-3 rounded-xl bg-[#2C2A29] hover:bg-[#1A1A1A] text-white font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer hover:-translate-y-0.5 active:translate-y-0"
                 >
-                  {isLoading ? 'Registering...' : 'Register Tactical Account'}
-                  <ArrowRight className="w-4 h-4 opacity-80" />
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>{isLoading ? 'Verifying & Provisioning...' : 'Register Tactical Officer Account'}</span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-80" />
                 </button>
+
+                {/* Reassurance Footer */}
+                <div className="pt-1.5 text-center border-t border-[#E8E1D5]/60 flex items-center justify-between text-[10px] text-[#7A726A]">
+                  <span>Authorized by Ministry of Home Affairs / SDMA</span>
+                  <button
+                    type="button"
+                    onClick={() => setAuthMode('signin')}
+                    className="text-[#8B7355] hover:underline font-semibold cursor-pointer inline-flex items-center gap-1"
+                  >
+                    Already have credentials? Sign In <ArrowRight className="w-2.5 h-2.5" />
+                  </button>
+                </div>
               </form>
             </div>
           ) : (
@@ -587,8 +888,8 @@ export default function AuthSection({ initialMode = 'signin', onClose, onAuthSuc
             </form>
           </div>
           )}
+          </div>
         </div>
-
       </div>
     </div>
   );

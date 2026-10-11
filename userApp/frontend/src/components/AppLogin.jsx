@@ -17,7 +17,8 @@ import {
   AlertCircle,
   User,
   UserPlus,
-  CheckCircle2
+  CheckCircle2,
+  Zap
 } from 'lucide-react';
 import { apiService } from '../utils/api';
 
@@ -265,17 +266,17 @@ export default function AppLogin({ onLogin }) {
         
         {/* Brand Header */}
         <div className="text-center mb-7">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#F6F4F0] border border-[#E8E1D5] shadow-xs mb-3.5 group transition-transform duration-300 hover:scale-105">
+          <div className="inline-flex items-center justify-center w-14 h-14 mb-3.5 group transition-transform duration-300 hover:scale-105">
             <img 
               src="/favicon.webp" 
               alt="SurakshaDrishti Emblem" 
-              className="w-9 h-9 object-contain"
+              className="w-12 h-12 object-contain"
               onError={(e) => {
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'block';
               }} 
             />
-            <ShieldCheck className="w-7 h-7 text-[#8B7355] hidden" />
+            <ShieldCheck className="w-9 h-9 text-[#8B7355] hidden" />
           </div>
 
           <h1 className="text-2xl font-bold text-[#1A1A1A] tracking-tight">
@@ -335,6 +336,48 @@ export default function AppLogin({ onLogin }) {
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </button>
+
+            {/* 1-Click Demo Evaluation Profiles */}
+            <div className="p-3 rounded-2xl bg-[#F6F4F0] border border-[#E8E1D5] text-left">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-[#1A1A1A] flex items-center gap-1.5">
+                  <Zap className="w-3.5 h-3.5 text-[#8B7355]" /> 1-Click Evaluation Access
+                </span>
+                <span className="text-[9px] font-mono font-bold text-[#8B7355] uppercase bg-white px-1.5 py-0.5 rounded border border-[#E8E1D5]">
+                  Instant Test
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => onLogin({
+                    role: 'user',
+                    phone: '+91 9876543210',
+                    name: 'Rohan Sharma (Citizen)',
+                    emergencyId: 'EM-DEMO-01',
+                    location: geoLoc.lat ? geoLoc : { lat: 11.5284, lng: 76.0888, address: 'Chooralmala, Wayanad' }
+                  })}
+                  className="p-2 rounded-xl bg-white hover:bg-emerald-50/50 border border-[#E8E1D5] hover:border-emerald-500/40 text-left transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  <div className="text-[11px] font-bold text-[#1A1A1A] truncate">Citizen Demo</div>
+                  <div className="text-[9px] text-[#7A726A] truncate">Wayanad Evacuee</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onLogin({
+                    role: 'agent',
+                    phone: '+91 9123456780',
+                    name: 'Officer Rajesh Verma',
+                    token: 'demo_token_agent',
+                    location: geoLoc.lat ? geoLoc : { lat: 11.5300, lng: 76.0900, address: 'Meppadi SAR Post, Wayanad' }
+                  })}
+                  className="p-2 rounded-xl bg-white hover:bg-amber-50/50 border border-[#E8E1D5] hover:border-amber-500/40 text-left transition-all active:scale-[0.98] cursor-pointer"
+                >
+                  <div className="text-[11px] font-bold text-[#1A1A1A] truncate">Officer Demo</div>
+                  <div className="text-[9px] text-[#7A726A] truncate">NDRF Field Unit</div>
+                </button>
+              </div>
+            </div>
 
             {/* Live GPS Telemetry Status */}
             <div className="bg-[#F6F4F0] border border-[#E8E1D5] rounded-xl p-3 text-xs flex items-center justify-between mt-1">

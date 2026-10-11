@@ -161,44 +161,49 @@ export default function GovernmentLanding({ onSignIn, onEmergencyAccess, onOpenD
             </div>
           </div>
 
-          {/* ─── RIGHT COLUMN: Floating Tactical Location & Real-Time Orbiting Satellite ─── */}
-          <div className="relative w-full aspect-square max-w-[520px] mx-auto lg:mx-0 lg:ml-auto flex items-center justify-center pointer-events-none select-none">
+          {/* ─── RIGHT COLUMN: High-Fidelity Animated Satellite Telemetry Vector ─── */}
+          <div className="relative w-full aspect-square max-w-[520px] mx-auto lg:mx-0 lg:ml-auto flex items-center justify-center select-none">
             {/* Ambient Radial Soft Glow */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#8B7355]/10 via-[#B85C38]/5 to-transparent rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#8B7355]/15 via-[#B85C38]/10 to-transparent rounded-full blur-3xl pointer-events-none"></div>
 
-            {/* Main Location Earth Globe (Transparent, floating) */}
-            <img 
-              src="/location_transparent.gif" 
-              alt="SurakshaDrishti Real-Time Location Telemetry" 
-              className="relative z-10 w-full h-full object-contain select-none pointer-events-none"
+            {/* Radar Scan Grid Ring / Halo */}
+            <div className="absolute w-[92%] h-[92%] rounded-full border border-[#8B7355]/20 border-dashed animate-spin-slow pointer-events-none"></div>
+
+            {/* Dedicated Satellite SVG Illustration (Home Page Only) */}
+            <div 
+              className="relative z-10 w-[88%] h-[88%] flex items-center justify-center pointer-events-none"
               style={{ 
                 animation: 'float 6s ease-in-out infinite',
-                filter: 'drop-shadow(0 20px 35px rgba(74, 66, 56, 0.14))'
-              }}
-              draggable={false}
-            />
-
-            {/* Live Vector Satellite Sensor System with Pulse Beacon */}
-            <div 
-              className="absolute -top-4 -right-4 sm:-top-6 sm:-right-6 w-36 h-36 sm:w-48 sm:h-48 z-20"
-              style={{ 
-                animation: 'float 7s ease-in-out infinite reverse',
-                filter: 'drop-shadow(0 15px 30px rgba(139, 115, 85, 0.25))'
+                filter: 'drop-shadow(0 20px 40px rgba(74, 66, 56, 0.2))'
               }}
             >
               <img 
                 src="/Sattelite.svg" 
-                alt="Tactical Satellite Telemetry Sensor" 
+                alt="ISRO SAR Reconnaissance Telemetry Satellite" 
                 className="w-full h-full object-contain select-none pointer-events-none"
                 draggable={false}
               />
-              
-              {/* Telemetry Sensor Ping Beacon Badge */}
-              <div className="absolute -bottom-2 -left-2 bg-white/90 border border-[#E8E1D5] rounded-full px-2.5 py-1 shadow-xs backdrop-blur-md flex items-center gap-1.5 pointer-events-auto">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2D7A4F] animate-pulse"></span>
-                <span className="text-[9px] font-mono font-bold tracking-wider text-[#4A4238] uppercase">
-                  SAT-GEO • LIVE
-                </span>
+            </div>
+
+            {/* Telemetry Sensor Ping Beacon Badge (Top Right) */}
+            <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-30 bg-white/90 border border-[#E8E1D5] rounded-full px-3 py-1.5 shadow-sm backdrop-blur-md flex items-center gap-2 pointer-events-auto">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2D7A4F] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2D7A4F]"></span>
+              </span>
+              <span className="text-[10px] font-mono font-bold tracking-wider text-[#4A4238] uppercase">
+                ISRO SAR • EOS-04 LIVE
+              </span>
+            </div>
+
+            {/* Geohash Hazard Telemetry Badge (Bottom Left) */}
+            <div className="absolute -bottom-2 -left-2 sm:bottom-2 sm:left-2 z-30 bg-white/95 border border-[#E8E1D5] rounded-2xl px-3.5 py-2 shadow-sm backdrop-blur-md flex items-center gap-2.5 pointer-events-auto">
+              <div className="w-7 h-7 rounded-lg bg-[#FFF5F2] border border-[#FADED4] flex items-center justify-center text-[#B85C38] shrink-0">
+                <Activity className="w-4 h-4 animate-pulse" />
+              </div>
+              <div className="text-left">
+                <p className="text-[9px] font-mono uppercase text-[#8C847A] tracking-wider leading-none mb-0.5">Tactical Spatial Index</p>
+                <p className="text-[11px] font-mono font-bold text-[#2C2A29] leading-none">GEOHASH #TDV2N19Z • ACTIVE</p>
               </div>
             </div>
           </div>
