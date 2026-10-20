@@ -172,3 +172,40 @@ CREATE TABLE IF NOT EXISTS consensus_log (
     action TEXT, -- e.g., VOTE_CAST, CLEARANCE_GRANTED
     timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ==========================================
+-- EXPLICIT SUPABASE DATA API GRANTS
+-- Required from October 30 2026 onwards.
+-- New tables in the public schema need an explicit GRANT
+-- or the API returns 'permission denied'.
+-- ==========================================
+
+DO $$
+DECLARE
+    t TEXT;
+    tables TEXT[] := ARRAY[
+        'users',
+        'hazard_zones',
+        'history_red_zones',
+        'zone_assignments',
+        'shelters',
+        'emergency_passes',
+        'conversations',
+        'conversation_participants',
+        'chat_logs',
+        'gsm_chat_logs',
+        'message_reactions',
+        'ai_prediction_history',
+        'consensus_log'
+    ];
+BEGIN
+    FOREACH t IN ARRAY tables LOOP
+        EXECUTE format('GRANT SELECT ON public.%I TO anon', t);
+        EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON public.%I TO authenticated', t);
+        EXECUTE format('GRANT SELECT, INSERT, UPDATE, DELETE ON public.%I TO service_role', t);
+    END LOOP;
+END $$;
+
+-- Grant usage on all sequences (needed for SERIAL / auto-increment columns)
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO authenticated;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO service_role;
